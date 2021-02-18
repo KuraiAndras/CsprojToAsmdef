@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{ECD91EAB-0067-4812-86AB-8B179157C0CB}"
 	ProjectSection(SolutionItems) = preProject
 		CsprojToAsmdef\Assets\Directory.Build.props = CsprojToAsmdef\Assets\Directory.Build.props
+		CsprojToAsmdef\Assets\Directory.Build.targets = CsprojToAsmdef\Assets\Directory.Build.targets
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "CsprojToAsmdef\Assets\Sample\Sample.csproj", "{714AE85F-46E4-40F1-B707-A6723724938B}"
