@@ -1,9 +1,6 @@
-using UnityEngine;
-
 namespace Sample
 {
-    public class Hello : MonoBehaviour
+    public class Hello
     {
-        private void Start() => Debug.Log("Hello");
     }
 }
