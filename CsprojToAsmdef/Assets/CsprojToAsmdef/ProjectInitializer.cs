@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 namespace CsprojToAsmdef
@@ -88,8 +87,7 @@ namespace CsprojToAsmdef
 
         private static readonly string GitIgnorePath = Path.Combine(Application.dataPath, ".gitignore");
 
-        [MenuItem("Tools / Initialize Unity project")]
-        public static void GenerateAsmdefs()
+        public static void InitializeProject()
         {
             InitBuildFile(PropsPath, PropsContent);
             InitBuildFile(TargetsPath, TargetsContent);
