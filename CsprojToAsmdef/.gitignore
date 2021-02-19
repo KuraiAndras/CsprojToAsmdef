@@ -72,3 +72,6 @@ InitTestScene*.unity
 
 
 # End of https://www.toptal.com/developers/gitignore/api/unity
+
+![Pp]ackages/*
+!*.rsp
