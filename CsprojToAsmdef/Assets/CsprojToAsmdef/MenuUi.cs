@@ -9,5 +9,8 @@ namespace CsprojToAsmdef
 
         [MenuItem("Tools / Restore all projects")]
         public static void RestoreProjects() => BuildTools.BuildAllCsproj();
+
+        [MenuItem("Tools / Generate all asmdef files")]
+        public static void GenerateAllAsmdef() => AsmdefTools.GenerateAllAsmdef();
     }
 }
