@@ -1,6 +1,6 @@
 {
     "name": "com.kuraiandras.csprojtoasmdef",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "displayName": "Csproj To Asmdef",
     "unity": "2020.2",
     "author": {

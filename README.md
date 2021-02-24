@@ -43,15 +43,22 @@ You can also configure the asmdef generation via csproj properties. When the pro
 | versionDefines      | VersionDefines        |
 | noEngineReferences  | NoEngineReferences    |
 
+Asmdef references are handled by the following pattern:
+
+```xml
+<Reference Include="$(UnityProjectPath)\$(UnityScriptAssembliesPath)\*.dll" Private="false" />
+```
+
+Where '*' means the name of the assembly definition Unity compiles. For this to work you will need to set the ```UnityProjectPath``` property to point to the correct folder (usually a relative path upwards. Check out Sample.csproj).
+
 ## Current State
 
 - [VSTU](https://docs.microsoft.com/en-us/visualstudio/gamedev/unity/get-started/visual-studio-tools-for-unity) is not supported
 - Debugging works, if you attach the Unity debugger manually (VSTU button, attach unity debugger)
 - ReSharper (and possibly Rider) works as expected
-- VSCode is not tested, but should work
+- VSCode can attach debugger, can't start editor.
 - Currently the package requires Unity 2020.2 . It should work from 2019.1 and up, but will require manual installation. This might change in the future
 - Multiple csproj files are supported (in separate folders), but cross referencing them is not
-- Referencing UPM packages currently does not work - can be made working by manually editing asmdef and csproj fiels
 - Requires a Unity installation. If you want to use this in a CI/CD environment you will need to install the Unity Editor, although you do not need to run or activate it in order to work. If you have UPM references, you will need to make Unity initialize the project
 
 Contribute if you can. VSTU support seems like a mystery.

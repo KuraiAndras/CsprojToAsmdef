@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ namespace CsprojToAsmdef
 
                 var csprojLines = File.ReadAllLines(filePath);
 
+                var references = csprojLines.GetAssemblyReferences();
                 var includePlatforms = csprojLines.GetCollectionProperty("IncludePlatforms");
                 var excludePlatforms = csprojLines.GetCollectionProperty("ExcludePlatforms");
                 var allowUnsafeCode = csprojLines.GetBoolProperty("AllowUnsafeBlocks", false);
@@ -29,7 +31,7 @@ namespace CsprojToAsmdef
                 var asmdef = new Asmdef
                 {
                     name = projectName,
-                    references = new string[0],
+                    references = references,
                     includePlatforms = includePlatforms,
                     excludePlatforms = excludePlatforms,
                     allowUnsafeCode = allowUnsafeCode,
@@ -65,6 +67,29 @@ namespace CsprojToAsmdef
                 .Replace($"<{propertyName}>", string.Empty)
                 .Replace($"</{propertyName}>", string.Empty)
                 .ToBool() ?? defaultValue;
+
+        private static string[] GetAssemblyReferences(this IEnumerable<string> csprojLines)
+        {
+            var firstPartRegex = new Regex(@".*Reference Include=""\$\(UnityProjectPath\)\\\$\(UnityScriptAssembliesPath\)\\");
+
+            var references = new List<string>();
+
+            foreach (var line in csprojLines)
+            {
+                var match = firstPartRegex.Match(line);
+                if (!match.Success) continue;
+
+                var firstPart = match.Value;
+
+                var referenceName = line
+                    .Replace(firstPart, string.Empty)
+                    .Replace(".dll\" Private=\"false\" />", string.Empty);
+
+                references.Add(referenceName);
+            }
+
+            return references.ToArray();
+        }
 
         private static bool ToBool(this string text) => bool.Parse(text);
 
