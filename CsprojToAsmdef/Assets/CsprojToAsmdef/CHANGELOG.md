@@ -1,3 +1,6 @@
+# 0.2.0
+- Added: Generate assembly references from DLL references
+
 # 0.1.0
 - Initial release
 - Added: Initialize project with build props
