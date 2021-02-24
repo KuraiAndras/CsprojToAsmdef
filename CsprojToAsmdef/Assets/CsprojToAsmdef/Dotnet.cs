@@ -6,8 +6,8 @@ namespace CsprojToAsmdef
 {
     public static class Dotnet
     {
-        public static void Build(string args) => Run("build " + args);
-        public static void Restore(string args) => Run("restore " + args);
+        public static void Build(string args) => Run($"build {args}");
+        public static void Restore(string args) => Run($"restore {args}");
 
         public static void Run(string args)
         {
