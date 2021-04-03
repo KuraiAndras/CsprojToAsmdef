@@ -15,7 +15,7 @@ namespace CsprojToAsmdef
             foreach (var filePath in BuildTools.GetAllCsprojFiles())
             {
                 var projectName = Path.GetFileNameWithoutExtension(filePath);
-                var asmdefPath = Path.Combine(Path.GetDirectoryName(filePath)!, projectName + ".asmdef");
+                var asmdefPath = Path.Combine(Path.GetDirectoryName(filePath), projectName + ".asmdef");
 
                 var csprojLines = File.ReadAllLines(filePath);
 
