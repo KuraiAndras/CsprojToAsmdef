@@ -5,7 +5,7 @@ namespace Sample
 {
     public class Hello : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _text = default!;
+        [SerializeField] private TMP_Text _text = default;
 
         private void Start()
         {

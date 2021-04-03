@@ -11,7 +11,7 @@ namespace CsprojToAsmdef
 
         public static void Run(string args)
         {
-            using var process = new Process
+            using (var process = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
@@ -22,44 +22,45 @@ namespace CsprojToAsmdef
                     RedirectStandardError = true,
                     CreateNoWindow = true
                 }
-            };
-
-            var outputBuilder = new StringBuilder();
-            var errorBuilder = new StringBuilder();
-
-            void WriteProcessOutput(object sender, DataReceivedEventArgs e)
+            })
             {
-                if (!string.IsNullOrWhiteSpace(e.Data)) outputBuilder.AppendLine(e.Data);
+                var outputBuilder = new StringBuilder();
+                var errorBuilder = new StringBuilder();
+
+                void WriteProcessOutput(object sender, DataReceivedEventArgs e)
+                {
+                    if (!string.IsNullOrWhiteSpace(e.Data)) outputBuilder.AppendLine(e.Data);
+                }
+
+                void WriteProcessError(object sender, DataReceivedEventArgs e)
+                {
+                    if (!string.IsNullOrWhiteSpace(e.Data)) errorBuilder.AppendLine(e.Data);
+                }
+
+                process.OutputDataReceived += WriteProcessOutput;
+                process.ErrorDataReceived += WriteProcessError;
+
+                try
+                {
+                    process.Start();
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+                    process.WaitForExit();
+                }
+                catch (Exception e)
+                {
+                    UnityEngine.Debug.LogException(e);
+                }
+
+                process.OutputDataReceived -= WriteProcessOutput;
+                process.ErrorDataReceived -= WriteProcessError;
+
+                var outputs = outputBuilder.ToString();
+                var errors = errorBuilder.ToString();
+
+                if (!string.IsNullOrWhiteSpace(outputs)) UnityEngine.Debug.Log(outputs);
+                if (!string.IsNullOrWhiteSpace(errors)) UnityEngine.Debug.LogError(errors);
             }
-
-            void WriteProcessError(object sender, DataReceivedEventArgs e)
-            {
-                if (!string.IsNullOrWhiteSpace(e.Data)) errorBuilder.AppendLine(e.Data);
-            }
-
-            process.OutputDataReceived += WriteProcessOutput;
-            process.ErrorDataReceived += WriteProcessError;
-
-            try
-            {
-                process.Start();
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-                process.WaitForExit();
-            }
-            catch (Exception e)
-            {
-                UnityEngine.Debug.LogException(e);
-            }
-
-            process.OutputDataReceived -= WriteProcessOutput;
-            process.ErrorDataReceived -= WriteProcessError;
-
-            var outputs = outputBuilder.ToString();
-            var errors = errorBuilder.ToString();
-
-            if (!string.IsNullOrWhiteSpace(outputs)) UnityEngine.Debug.Log(outputs);
-            if (!string.IsNullOrWhiteSpace(errors)) UnityEngine.Debug.LogError(errors);
         }
     }
 }

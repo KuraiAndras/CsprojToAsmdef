@@ -3,7 +3,7 @@
   <PropertyGroup>
 
     <BaseIntermediateOutputPath>.obj\</BaseIntermediateOutputPath>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>7.3</LangVersion>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 
   </PropertyGroup>
@@ -13,10 +13,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <UnityVersion>2020.2.3f1</UnityVersion>
+    <UnityVersion>2019.2.0f1</UnityVersion>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Package</UnityProjectGenerator>
-    <UnityProjectGeneratorVersion>2.0.7</UnityProjectGeneratorVersion>
+    <UnityProjectGeneratorVersion>1.0.11</UnityProjectGeneratorVersion>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
   </PropertyGroup>
