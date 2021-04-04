@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "CsprojToAsmdef\As
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsprojToAsmdef", "CsprojToAsmdef\Assets\CsprojToAsmdef\CsprojToAsmdef.csproj", "{068C687F-8A6C-4675-966A-876B0F3DEA38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsprojToAsmdef.Tool", "CsprojToAsmdef.Tool\CsprojToAsmdef.Tool.csproj", "{D5211E10-5965-4499-AE64-EE71CE5AADA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,18 @@ Global
 		{068C687F-8A6C-4675-966A-876B0F3DEA38}.Release|x64.Build.0 = Release|Any CPU
 		{068C687F-8A6C-4675-966A-876B0F3DEA38}.Release|x86.ActiveCfg = Release|Any CPU
 		{068C687F-8A6C-4675-966A-876B0F3DEA38}.Release|x86.Build.0 = Release|Any CPU
+		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Debug|x64.Build.0 = Debug|Any CPU
+		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Debug|x86.Build.0 = Debug|Any CPU
+		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Release|x64.ActiveCfg = Release|Any CPU
+		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Release|x64.Build.0 = Release|Any CPU
+		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Release|x86.ActiveCfg = Release|Any CPU
+		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
