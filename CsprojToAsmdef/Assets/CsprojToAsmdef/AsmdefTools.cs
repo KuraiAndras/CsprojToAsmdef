@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -15,7 +16,9 @@ namespace CsprojToAsmdef
             foreach (var filePath in BuildTools.GetAllCsprojFiles())
             {
                 var projectName = Path.GetFileNameWithoutExtension(filePath);
-                var asmdefPath = Path.Combine(Path.GetDirectoryName(filePath), projectName + ".asmdef");
+                var directoryName = Path.GetDirectoryName(filePath) ?? throw new InvalidOperationException("File is in no directory");
+
+                var asmdefPath = Path.Combine(directoryName, projectName + ".asmdef");
 
                 var csprojLines = File.ReadAllLines(filePath);
 
