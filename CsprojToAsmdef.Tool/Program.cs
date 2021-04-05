@@ -34,6 +34,7 @@ namespace CsprojToAsmdef.Tool
         }
 
         private static IServiceCollection AddServices(this IServiceCollection services) =>
-            services;
+            services
+                .AddTransient<GetProjectProperties.IDotNetTooling, GetProjectProperties.DotNetTooling>();
     }
 }
