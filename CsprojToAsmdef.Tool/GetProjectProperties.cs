@@ -8,6 +8,7 @@ using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -38,7 +39,7 @@ namespace CsprojToAsmdef.Tool
             var properties = project.AllEvaluatedProperties;
 
             var name = Path.GetFileNameWithoutExtension(ProjectPath);
-            var references = ImmutableArray<string>.Empty;
+            var references = GetReferences(project.AllEvaluatedItems);
             var includePlatforms = GetCollectionProperty(properties, nameof(Asmdef.IncludePlatforms));
             var excludePlatforms = GetCollectionProperty(properties, nameof(Asmdef.ExcludePlatforms));
             var allowUnsafeCode = GetBoolProperty(properties, "AllowUnsafeBlocks", false);
@@ -96,6 +97,14 @@ namespace CsprojToAsmdef.Tool
                 : defaultValue;
         }
 
+        private static ImmutableArray<string> GetReferences(IEnumerable<ProjectItem> items) =>
+            items
+                .Where(i => i.ItemType == "Reference")
+                .Select(i => i.EvaluatedInclude)
+                .Where(i => i.Contains("ScriptAssemblies"))
+                .Select(i => Path.GetFileNameWithoutExtension(i)!)
+                .ToImmutableArray();
+
         public interface IDotNetTooling
         {
             Task SetMsbuildEnvironmentVariable(CancellationToken cancellationToken = default);
@@ -131,6 +140,8 @@ namespace CsprojToAsmdef.Tool
             }
         }
 
+        [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+        [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "False positive")]
         public sealed class Asmdef
         {
             public Asmdef(
