@@ -1,6 +1,8 @@
 {
     "name": "CsprojToAsmdef",
-    "references": [],
+    "references": [
+        "Unity.EditorCoroutines.Editor"
+    ],
     "includePlatforms": [
         "Editor"
     ],

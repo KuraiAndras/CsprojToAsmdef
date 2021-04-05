@@ -2,7 +2,10 @@
     "name": "com.kuraiandras.csprojtoasmdef",
     "version": "0.2.0",
     "displayName": "Csproj To Asmdef",
-    "unity": "2020.2",
+    "unity": "2019.2",
+    "dependencies": {
+        "com.unity.editorcoroutines": "1.0.0"
+    },
     "author": {
         "name": "Kurai András",
         "email": "k.andras9642@gmail.com",
