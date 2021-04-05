@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="$(UnityProjectPath)\$(UnityScriptAssembliesPath)\Unity.EditorCoroutines.Editor.dll" Private="false" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="$(UnityInstallRoot)\$(UnityVersion)\$(UnityEditorPath)" Private="false" />
   </ItemGroup>
 
