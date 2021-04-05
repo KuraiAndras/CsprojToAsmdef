@@ -2,12 +2,18 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 namespace CsprojToAsmdef
 {
+    [InitializeOnLoad]
     public static class Dotnet
     {
+        private static readonly string DataPath;
+
+        static Dotnet() => DataPath = Application.dataPath;
+
         public static void Build(string args) => Execute($"build {args}");
         public static void Restore(string args) => Execute($"restore {args}");
 
@@ -15,7 +21,7 @@ namespace CsprojToAsmdef
 
         public static void RunTool(string args)
         {
-            var devDirPath = Path.Combine(Application.dataPath, "..", "..", nameof(CsprojToAsmdef) + ".Cli");
+            var devDirPath = Path.Combine(DataPath, "..", "..", nameof(CsprojToAsmdef) + ".Cli");
 
             if (Directory.Exists(devDirPath))
             {
