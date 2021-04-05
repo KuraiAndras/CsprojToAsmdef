@@ -35,6 +35,6 @@ namespace CsprojToAsmdef.Cli
 
         private static IServiceCollection AddServices(this IServiceCollection services) =>
             services
-                .AddTransient<GetProjectProperties.IDotNetTooling, GetProjectProperties.DotNetTooling>();
+                .AddTransient<CreateAsmdefForProject.IDotNetTooling, CreateAsmdefForProject.DotNetTooling>();
     }
 }

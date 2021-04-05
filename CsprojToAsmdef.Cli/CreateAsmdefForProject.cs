@@ -19,12 +19,12 @@ using MoreLinq;
 
 namespace CsprojToAsmdef.Cli
 {
-    [Command(nameof(GetProjectProperties))]
-    public sealed class GetProjectProperties : ICommand
+    [Command(nameof(CreateAsmdefForProject))]
+    public sealed class CreateAsmdefForProject : ICommand
     {
         private readonly IDotNetTooling _dotNet;
 
-        public GetProjectProperties(IDotNetTooling dotNet) => _dotNet = dotNet;
+        public CreateAsmdefForProject(IDotNetTooling dotNet) => _dotNet = dotNet;
 
         [CommandParameter(0)] public string ProjectPath { get; init; } = string.Empty;
 
@@ -79,11 +79,11 @@ namespace CsprojToAsmdef.Cli
         }
 
         private static ImmutableArray<string> GetCollectionProperty(IEnumerable<ProjectProperty> properties, string propertyName) =>
-            (properties
+            properties
                 .SingleOrDefault(p => p.Name == propertyName)
-                ?.EvaluatedValue)
-            ?.Split(';')
-            .ToImmutableArray()
+                ?.EvaluatedValue
+                ?.Split(';')
+                .ToImmutableArray()
             ?? ImmutableArray<string>.Empty;
 
         private static bool GetBoolProperty(IEnumerable<ProjectProperty> properties, string propertyName, bool defaultValue)
