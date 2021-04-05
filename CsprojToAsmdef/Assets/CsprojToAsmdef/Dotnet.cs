@@ -1,15 +1,33 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
+using UnityEngine;
 
 namespace CsprojToAsmdef
 {
     public static class Dotnet
     {
-        public static void Build(string args) => Run($"build {args}");
-        public static void Restore(string args) => Run($"restore {args}");
+        public static void Build(string args) => Execute($"build {args}");
+        public static void Restore(string args) => Execute($"restore {args}");
 
-        public static void Run(string args)
+        public static void CreateAsmdefForProject(string csprojPath) => RunTool($"{nameof(CreateAsmdefForProject)} {csprojPath}");
+
+        public static void RunTool(string args)
+        {
+            var devDirPath = Path.Combine(Application.dataPath, "..", "..", nameof(CsprojToAsmdef) + ".Cli");
+
+            if (Directory.Exists(devDirPath))
+            {
+                Execute($"run --project {devDirPath} -- {args}");
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public static void Execute(string args)
         {
             using (var process = new Process
             {
