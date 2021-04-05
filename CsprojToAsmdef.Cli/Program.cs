@@ -1,11 +1,11 @@
-﻿using CliFx;
-using Microsoft.Extensions.DependencyInjection;
-using MoreLinq.Extensions;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using CliFx;
+using Microsoft.Extensions.DependencyInjection;
+using MoreLinq.Extensions;
 
-namespace CsprojToAsmdef.Tool
+namespace CsprojToAsmdef.Cli
 {
     public static class Program
     {

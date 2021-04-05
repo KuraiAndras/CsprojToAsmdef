@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "CsprojToAsmdef\As
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsprojToAsmdef", "CsprojToAsmdef\Assets\CsprojToAsmdef\CsprojToAsmdef.csproj", "{068C687F-8A6C-4675-966A-876B0F3DEA38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsprojToAsmdef.Tool", "CsprojToAsmdef.Tool\CsprojToAsmdef.Tool.csproj", "{D5211E10-5965-4499-AE64-EE71CE5AADA6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsprojToAsmdef.Cli", "CsprojToAsmdef.Cli\CsprojToAsmdef.Cli.csproj", "{D5211E10-5965-4499-AE64-EE71CE5AADA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

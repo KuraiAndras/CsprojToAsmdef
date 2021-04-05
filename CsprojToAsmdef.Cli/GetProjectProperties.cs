@@ -1,11 +1,4 @@
-﻿using CliFx;
-using CliFx.Attributes;
-using CliFx.Exceptions;
-using CliFx.Infrastructure;
-using CliWrap;
-using Microsoft.Build.Evaluation;
-using MoreLinq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
@@ -16,8 +9,15 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using CliFx;
+using CliFx.Attributes;
+using CliFx.Exceptions;
+using CliFx.Infrastructure;
+using CliWrap;
+using Microsoft.Build.Evaluation;
+using MoreLinq;
 
-namespace CsprojToAsmdef.Tool
+namespace CsprojToAsmdef.Cli
 {
     [Command(nameof(GetProjectProperties))]
     public sealed class GetProjectProperties : ICommand
@@ -118,7 +118,7 @@ namespace CsprojToAsmdef.Tool
             {
                 var output = new StringBuilder();
 
-                await Cli.Wrap(DotNet)
+                await CliWrap.Cli.Wrap(DotNet)
                     .WithArguments("--list-sdks")
                     .WithStandardOutputPipe(PipeTarget.ToStringBuilder(output))
                     .ExecuteAsync(cancellationToken);

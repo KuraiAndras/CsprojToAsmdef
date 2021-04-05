@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CsprojToAsmdef.Tool.Extensions
+namespace CsprojToAsmdef.Cli.Extensions
 {
     public static class EnumerableExtensions
     {
