@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using CliFx;
+﻿using CliFx;
 using CliFx.Attributes;
 using CliFx.Exceptions;
 using CliFx.Infrastructure;
-using CliWrap;
 using Microsoft.Build.Evaluation;
-using MoreLinq;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
+using CsprojToAsmdef.Cli.Domain;
+using CsprojToAsmdef.Cli.Domain.Services.DotNet;
 
 namespace CsprojToAsmdef.Cli
 {
@@ -104,83 +99,5 @@ namespace CsprojToAsmdef.Cli
                 .Where(i => i.Contains("ScriptAssemblies"))
                 .Select(i => Path.GetFileNameWithoutExtension(i)!)
                 .ToImmutableArray();
-
-        public interface IDotNetTooling
-        {
-            Task SetMsbuildEnvironmentVariable(CancellationToken cancellationToken = default);
-        }
-
-        public sealed class DotNetTooling : IDotNetTooling
-        {
-            private const string DotNet = "dotnet";
-
-            public async Task SetMsbuildEnvironmentVariable(CancellationToken cancellationToken = default)
-            {
-                var output = new StringBuilder();
-
-                await CliWrap.Cli.Wrap(DotNet)
-                    .WithArguments("--list-sdks")
-                    .WithStandardOutputPipe(PipeTarget.ToStringBuilder(output))
-                    .ExecuteAsync(cancellationToken);
-
-                var sdkPaths = Regex.Matches(output.ToString(), "([0-9]+.[0-9]+.[0-9]+) \\[(.*)\\]")
-                    .Select(m =>
-                    (
-                        path: Path.Combine(m.Groups[2].Value, m.Groups[1].Value, "MSBuild.dll"),
-                        version: new Version(m.Groups[1].Value)
-                    ))
-                    .ToImmutableArray();
-
-                var sdkPath = sdkPaths
-                    .MaxBy(p => p.version)
-                    .First()
-                    .path;
-
-                Environment.SetEnvironmentVariable("MSBUILD_EXE_PATH", sdkPath);
-            }
-        }
-
-        [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-        [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "False positive")]
-        public sealed class Asmdef
-        {
-            public Asmdef(
-                string name,
-                ImmutableArray<string> references,
-                ImmutableArray<string> includePlatforms,
-                ImmutableArray<string> excludePlatforms,
-                bool allowUnsafeCode,
-                bool overrideReferences,
-                ImmutableArray<string> precompiledReferences,
-                bool autoReferenced,
-                ImmutableArray<string> defineConstraints,
-                ImmutableArray<string> versionDefines,
-                bool noEngineReferences)
-            {
-                Name = name;
-                References = references;
-                IncludePlatforms = includePlatforms;
-                ExcludePlatforms = excludePlatforms;
-                AllowUnsafeCode = allowUnsafeCode;
-                OverrideReferences = overrideReferences;
-                PrecompiledReferences = precompiledReferences;
-                AutoReferenced = autoReferenced;
-                DefineConstraints = defineConstraints;
-                VersionDefines = versionDefines;
-                NoEngineReferences = noEngineReferences;
-            }
-
-            public string Name { get; }
-            public ImmutableArray<string> References { get; }
-            public ImmutableArray<string> IncludePlatforms { get; }
-            public ImmutableArray<string> ExcludePlatforms { get; }
-            public bool AllowUnsafeCode { get; }
-            public bool OverrideReferences { get; }
-            public ImmutableArray<string> PrecompiledReferences { get; }
-            public bool AutoReferenced { get; }
-            public ImmutableArray<string> DefineConstraints { get; }
-            public ImmutableArray<string> VersionDefines { get; }
-            public bool NoEngineReferences { get; }
-        }
     }
 }

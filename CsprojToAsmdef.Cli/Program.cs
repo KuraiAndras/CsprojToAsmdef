@@ -1,9 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using CliFx;
+﻿using CliFx;
 using Microsoft.Extensions.DependencyInjection;
 using MoreLinq.Extensions;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using CsprojToAsmdef.Cli.Domain.Services.DotNet;
 
 namespace CsprojToAsmdef.Cli
 {
@@ -35,6 +36,6 @@ namespace CsprojToAsmdef.Cli
 
         private static IServiceCollection AddServices(this IServiceCollection services) =>
             services
-                .AddTransient<CreateAsmdefForProject.IDotNetTooling, CreateAsmdefForProject.DotNetTooling>();
+                .AddTransient<IDotNetTooling, DotNetTooling>();
     }
 }
