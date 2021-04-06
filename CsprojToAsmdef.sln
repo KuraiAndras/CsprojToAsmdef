@@ -15,7 +15,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "CsprojToAsmdef\As
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsprojToAsmdef", "CsprojToAsmdef\Assets\CsprojToAsmdef\CsprojToAsmdef.csproj", "{068C687F-8A6C-4675-966A-876B0F3DEA38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsprojToAsmdef.Cli", "CsprojToAsmdef.Cli\CsprojToAsmdef.Cli.csproj", "{D5211E10-5965-4499-AE64-EE71CE5AADA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsprojToAsmdef.Cli", "CsprojToAsmdef.Cli\CsprojToAsmdef.Cli.csproj", "{D5211E10-5965-4499-AE64-EE71CE5AADA6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CsprojToAsmdef.Build", "CsprojToAsmdef.Build\CsprojToAsmdef.Build.csproj", "{C501AE1A-CC32-4F10-B9B1-F13ECD55A4DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D3F0817B-B868-47EC-A02E-141EDDD5ED71}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +70,16 @@ Global
 		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Release|x64.Build.0 = Release|Any CPU
 		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Release|x86.ActiveCfg = Release|Any CPU
 		{D5211E10-5965-4499-AE64-EE71CE5AADA6}.Release|x86.Build.0 = Release|Any CPU
+		{C501AE1A-CC32-4F10-B9B1-F13ECD55A4DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C501AE1A-CC32-4F10-B9B1-F13ECD55A4DF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C501AE1A-CC32-4F10-B9B1-F13ECD55A4DF}.Debug|x64.Build.0 = Debug|Any CPU
+		{C501AE1A-CC32-4F10-B9B1-F13ECD55A4DF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C501AE1A-CC32-4F10-B9B1-F13ECD55A4DF}.Debug|x86.Build.0 = Debug|Any CPU
+		{C501AE1A-CC32-4F10-B9B1-F13ECD55A4DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C501AE1A-CC32-4F10-B9B1-F13ECD55A4DF}.Release|x64.ActiveCfg = Release|Any CPU
+		{C501AE1A-CC32-4F10-B9B1-F13ECD55A4DF}.Release|x64.Build.0 = Release|Any CPU
+		{C501AE1A-CC32-4F10-B9B1-F13ECD55A4DF}.Release|x86.ActiveCfg = Release|Any CPU
+		{C501AE1A-CC32-4F10-B9B1-F13ECD55A4DF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

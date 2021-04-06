@@ -4,6 +4,14 @@
     <None Remove="**/**/*.meta" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <HelloMessage>Hello</HelloMessage>
+  </PropertyGroup>
+
+  <Target Name="SayHello" AfterTargets="AfterBuild">
+      <Exec Command="dotnetsay $(MSBuildProjectFullPath)"/>
+  </Target>
+
   <Target Name="Cleanup" AfterTargets="AfterBuild">
 
     <Delete Files="$(OutDir)/$(AssemblyName).dll" />
