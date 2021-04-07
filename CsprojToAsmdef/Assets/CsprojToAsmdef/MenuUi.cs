@@ -7,10 +7,7 @@ namespace CsprojToAsmdef
         [MenuItem("Csproj Tools / Initialize Unity project")]
         public static void InitProject() => ProjectInitializer.InitializeProject();
 
-        [MenuItem("Csproj Tools / Restore all projects")]
+        [MenuItem("Csproj Tools / Fix up all projects")]
         public static void RestoreProjects() => BuildTools.BuildAllCsproj();
-
-        [MenuItem("Csproj Tools / Generate all asmdef files")]
-        public static void GenerateAllAsmdef() => AsmdefTools.GenerateAllAsmdef();
     }
 }
