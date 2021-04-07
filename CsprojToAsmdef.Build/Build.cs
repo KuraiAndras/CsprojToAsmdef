@@ -19,7 +19,7 @@ partial class Build : NukeBuild
     [Parameter("Should be true for continuous integration builds")] readonly bool CiBuild;
 
     [Solution] readonly Solution Solution = default!;
-    [GitVersion(Framework = "net5.0")] readonly GitVersion GitVersion = default!;
+    [GitVersion(Framework = "netcoreapp3.1")] readonly GitVersion GitVersion = default!;
 
     Project CliProject => Solution.AllProjects.Single(p => p.Name == "CsprojToAsmdef.Cli");
 
