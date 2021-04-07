@@ -1,5 +1,11 @@
+# 0.3.4
+- Update dependencies
+- Update SDK version
+- Use correct framework version for GitVersion
+
 # 0.3.3
 - Run NuGet publish after OpenUPM publish
+
 # 0.3.2
 - Run NuGet publish as separate job on push to main
 
@@ -9,6 +15,7 @@
 # 0.3.0
 - Reorganize build and restore tasks to "Fix up"
 - Use DotNet tool to evaluate project properties. This is invoked through a build task using Exec
+- Downgrade Unity min version to 2019.2
 
 # 0.2.0
 - Added: Generate assembly references from DLL references
