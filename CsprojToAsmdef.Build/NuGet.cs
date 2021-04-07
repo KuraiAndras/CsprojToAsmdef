@@ -9,7 +9,7 @@ using static System.IO.Directory;
 partial class Build
 {
     const string NugetApiUrl = "https://api.nuget.org/v3/index.json";
-    [Parameter] readonly string? NugetApiKey;
+    [Parameter("NuGet API key to use for authentication with the NuGet server")] readonly string? NugetApiKey;
 
     Target Pack => _ => _
         .DependsOn(Compile)

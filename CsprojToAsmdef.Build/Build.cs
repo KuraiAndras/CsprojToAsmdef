@@ -1,7 +1,6 @@
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.Execution;
-using Nuke.Common.Git;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
@@ -17,10 +16,9 @@ partial class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Parameter] readonly bool CiBuild;
+    [Parameter("Should be true for continuous integration builds")] readonly bool CiBuild;
 
     [Solution] readonly Solution Solution = default!;
-    [GitRepository] readonly GitRepository GitRepository = default!;
     [GitVersion(Framework = "net5.0")] readonly GitVersion GitVersion = default!;
 
     Project CliProject => Solution.AllProjects.Single(p => p.Name == "CsprojToAsmdef.Cli");
