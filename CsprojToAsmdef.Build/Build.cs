@@ -4,9 +4,10 @@ using Nuke.Common.Execution;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
 using System;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.Tools.Git.GitTasks;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
@@ -21,15 +22,20 @@ partial class Build : NukeBuild
 
     [Solution] readonly Solution Solution = default!;
 
-    static string CurrentVersion
+    string CurrentVersion
     {
         get
         {
-            var versionText = Git("describe --tags --always").First().Text;
+            var packagePath = Path.Combine(Solution.Directory, "CsprojToAsmdef", "Assets", "CsprojToAsmdef", "package.json");
 
-            return Version.TryParse(versionText, out var version)
-                ? version.ToString()
-                : "0.1.0";
+            if (!File.Exists(packagePath)) throw new InvalidOperationException($"package.json does not exist at path: {packagePath}");
+
+            var jsonContent = File.ReadAllText(packagePath);
+            var package = JsonSerializer.Deserialize<PackageJson>(jsonContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            if (package?.Version is null) throw new InvalidOperationException($"Cloud not deserialize package.json:\n{jsonContent}");
+
+            return package.Version;
         }
     }
 
