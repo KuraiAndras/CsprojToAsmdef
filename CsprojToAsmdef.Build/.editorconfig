@@ -12,3 +12,6 @@ csharp_style_expression_bodied_accessors = true:warning
 
 # CA1050: Declare types in namespaces
 dotnet_diagnostic.CA1050.severity = none
+
+# IDE0051: Remove unused private members
+dotnet_diagnostic.IDE0051.severity = none
