@@ -1,3 +1,6 @@
+# 0.3.1
+- Try to fix NuGet publish job
+
 # 0.3.0
 - Reorganize build and restore tasks to "Fix up"
 - Use DotNet tool to evaluate project properties. This is invoked through a build task using Exec
