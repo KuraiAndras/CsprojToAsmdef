@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  publish:
+  publish-to-openupm:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,3 +17,18 @@ jobs:
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           package_root: "CsprojToAsmdef/Assets/CsprojToAsmdef"
+
+  publish-to-nuget:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2.1.0
+
+      - name: Setup Current .NET SDK
+        uses: actions/setup-dotnet@v1.7.2
+
+      - name: Run Nuke
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{secrets.NUGET_API_KEY}}
+        run: ./build.ps1 PushNuGet --ci-build --configuration Release --nuget-api-key "${{ secrets.NUGET_API_KEY }}"

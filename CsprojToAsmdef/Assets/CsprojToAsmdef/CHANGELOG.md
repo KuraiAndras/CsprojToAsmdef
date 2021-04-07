@@ -1,3 +1,6 @@
+# 0.3.2
+- Run NuGet publish as separate job on push to main
+
 # 0.3.1
 - Try to fix NuGet publish job
 
