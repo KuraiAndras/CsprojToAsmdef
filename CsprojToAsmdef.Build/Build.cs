@@ -3,9 +3,10 @@ using Nuke.Common.CI;
 using Nuke.Common.Execution;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
-using Nuke.Common.Tools.GitVersion;
+using System;
 using System.Linq;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.Tools.Git.GitTasks;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
@@ -19,7 +20,18 @@ partial class Build : NukeBuild
     [Parameter("Should be true for continuous integration builds")] readonly bool CiBuild;
 
     [Solution] readonly Solution Solution = default!;
-    [GitVersion(Framework = "netcoreapp3.1")] readonly GitVersion GitVersion = default!;
+
+    static string CurrentVersion
+    {
+        get
+        {
+            var versionText = Git("describe --tags --always").First().Text;
+
+            return Version.TryParse(versionText, out var version)
+                ? version.ToString()
+                : "0.1.0";
+        }
+    }
 
     Project CliProject => Solution.AllProjects.Single(p => p.Name == "CsprojToAsmdef.Cli");
 
@@ -34,10 +46,7 @@ partial class Build : NukeBuild
             DotNetBuild(s => s
                 .SetProjectFile(CliProject)
                 .SetConfiguration(Configuration)
-                .SetVersion(GitVersion.NuGetVersionV2)
-                .SetAssemblyVersion(GitVersion.AssemblySemVer)
-                .SetFileVersion(GitVersion.AssemblySemFileVer)
-                .SetInformationalVersion(GitVersion.InformationalVersion)
+                .SetVersion(CurrentVersion)
                 .SetContinuousIntegrationBuild(CiBuild)
                 .EnableNoRestore()));
 }

@@ -1,3 +1,6 @@
+# 0.3.5
+- Drop GitVersion
+
 # 0.3.4
 - Update dependencies
 - Update SDK version

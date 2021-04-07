@@ -17,7 +17,7 @@ partial class Build
             DotNetPack(s => s
                 .SetProject(CliProject)
                 .SetConfiguration(Configuration)
-                .SetVersion(GitVersion.NuGetVersionV2)
+                .SetVersion(CurrentVersion)
                 .EnableNoBuild()
                 .EnableNoRestore()));
 

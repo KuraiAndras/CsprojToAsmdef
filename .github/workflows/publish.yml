@@ -6,20 +6,7 @@ on:
       - main
 
 jobs:
-  publish-to-openupm:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2.1.0
-
-      - name: Publish CsprojToAsmdef to openupm
-        uses: Klemensas/action-autotag@1.2.3
-        with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          package_root: "CsprojToAsmdef/Assets/CsprojToAsmdef"
-
-  publish-to-nuget:
-    needs: publish-to-openupm
+  publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,12 +15,13 @@ jobs:
       - name: Setup Current .NET SDK
         uses: actions/setup-dotnet@v1.7.2
 
-      - name: Setup Tools .NET SDK
-        uses: actions/setup-dotnet@v1.7.2
+      - name: Publish OpenUPM
+        uses: Klemensas/action-autotag@1.2.3
         with:
-          dotnet-version: '3.1.x'
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          package_root: "CsprojToAsmdef/Assets/CsprojToAsmdef"
 
-      - name: Run Nuke
+      - name: Publish to NuGet
         shell: pwsh
         env:
           NUGET_API_KEY: ${{secrets.NUGET_API_KEY}}
