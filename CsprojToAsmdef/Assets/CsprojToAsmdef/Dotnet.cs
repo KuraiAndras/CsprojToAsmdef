@@ -1,15 +1,31 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
+using UnityEditor;
+using UnityEngine;
 
 namespace CsprojToAsmdef
 {
+    [InitializeOnLoad]
     public static class Dotnet
     {
-        public static void Build(string args) => Run($"build {args}");
-        public static void Restore(string args) => Run($"restore {args}");
+        private static readonly string DataPath;
 
-        public static void Run(string args)
+        static Dotnet() => DataPath = Application.dataPath;
+
+        public static void Build(string projectPath)
+        {
+            var devDllPath = Path.GetFullPath(Path.Combine(DataPath, "..", "..", nameof(CsprojToAsmdef) + ".Cli", "bin", "Debug", "net5.0", "CsprojToAsmdef.Cli.dll"));
+
+            var args = File.Exists(devDllPath)
+                ? $"build \"{projectPath}\" /p:AsmdefToolAccess=\"dotnet {devDllPath}\""
+                : $"build \"{projectPath}\"";
+
+            Execute(args);
+        }
+
+        public static void Execute(string args)
         {
             using (var process = new Process
             {

@@ -4,7 +4,15 @@
     <None Remove="**/**/*.meta" />
   </ItemGroup>
 
-  <Target Name="Cleanup" AfterTargets="AfterBuild">
+  <PropertyGroup>
+    <AsmdefToolAccess>asmdef-tool</AsmdefToolAccess>
+  </PropertyGroup>
+
+  <Target Name="FixUpProject" AfterTargets="Build">
+      <Exec Command="$(AsmdefToolAccess) FixUpProject $(MSBuildProjectFullPath)"/>
+  </Target>
+
+  <Target Name="Cleanup" AfterTargets="Build">
 
     <Delete Files="$(OutDir)/$(AssemblyName).dll" />
     <Delete Files="$(OutDir)/$(AssemblyName).pdb" />
