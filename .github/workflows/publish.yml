@@ -19,6 +19,7 @@ jobs:
           package_root: "CsprojToAsmdef/Assets/CsprojToAsmdef"
 
   publish-to-nuget:
+    needs: publish-to-openupm
     runs-on: ubuntu-latest
 
     steps:

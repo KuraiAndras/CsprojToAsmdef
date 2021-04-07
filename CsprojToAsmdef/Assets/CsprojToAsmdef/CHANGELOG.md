@@ -1,3 +1,5 @@
+# 0.3.3
+- Run NuGet publish after OpenUPM publish
 # 0.3.2
 - Run NuGet publish as separate job on push to main
 
