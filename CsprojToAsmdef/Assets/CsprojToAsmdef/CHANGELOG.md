@@ -1,3 +1,6 @@
+# 0.3.6
+- Get version during build from package.json
+
 # 0.3.5
 - Drop GitVersion
 
