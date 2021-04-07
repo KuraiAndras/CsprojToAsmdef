@@ -10,18 +10,20 @@ using System.Threading.Tasks;
 
 namespace CsprojToAsmdef.Cli
 {
-    [Command(nameof(CreateAsmdefForProject))]
-    public sealed class CreateAsmdefForProject : ICommand
+    [Command(nameof(FixUpProject))]
+    public sealed class FixUpProject : ICommand
     {
         private readonly IDotNetTooling _dotNet;
 
-        public CreateAsmdefForProject(IDotNetTooling dotNet) => _dotNet = dotNet;
+        public FixUpProject(IDotNetTooling dotNet) => _dotNet = dotNet;
 
         [CommandParameter(0)] public string ProjectPath { get; init; } = string.Empty;
 
         public async ValueTask ExecuteAsync(IConsole console)
         {
-            if (!File.Exists(ProjectPath)) throw new CommandException("Project file does not exist");
+            await console.Output.WriteLineAsync($"Starting creating asmdef file for project: {ProjectPath}");
+
+            if (!File.Exists(ProjectPath)) throw new CommandException($"Project file does not exist: {ProjectPath}");
 
             await _dotNet.SetMsbuildEnvironmentVariable();
 
@@ -32,6 +34,8 @@ namespace CsprojToAsmdef.Cli
             var json = asmdef.CreateJson();
 
             await File.WriteAllTextAsync(asmdefPath, json);
+
+            await console.Output.WriteLineAsync($"Finished creating asmdef file: {asmdefPath}");
         }
     }
 }

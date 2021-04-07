@@ -14,23 +14,15 @@ namespace CsprojToAsmdef
 
         static Dotnet() => DataPath = Application.dataPath;
 
-        public static void Build(string args) => Execute($"build {args}");
-        public static void Restore(string args) => Execute($"restore {args}");
-
-        public static void CreateAsmdefForProject(string csprojPath) => RunTool($"{nameof(CreateAsmdefForProject)} {csprojPath}");
-
-        public static void RunTool(string args)
+        public static void Build(string projectPath)
         {
-            var devDirPath = Path.Combine(DataPath, "..", "..", nameof(CsprojToAsmdef) + ".Cli");
+            var devDllPath = Path.GetFullPath(Path.Combine(DataPath, "..", "..", nameof(CsprojToAsmdef) + ".Cli", "bin", "Debug", "net5.0", "CsprojToAsmdef.Cli.dll"));
 
-            if (Directory.Exists(devDirPath))
-            {
-                Execute($"run --project {devDirPath} -- {args}");
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            var args = File.Exists(devDllPath)
+                ? $"build \"{projectPath}\" /p:AsmdefToolAccess=\"dotnet {devDllPath}\""
+                : $"build \"{projectPath}\"";
+
+            Execute(args);
         }
 
         public static void Execute(string args)

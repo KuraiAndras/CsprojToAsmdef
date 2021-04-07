@@ -36,32 +36,5 @@ namespace CsprojToAsmdef
                 RunningDictionary.TryTake(out _);
             }
         }
-
-        public static void RunLockedMethod(Action methodBody, [CallerMemberName] string methodName = default)
-        {
-            if (methodName is null) throw new ArgumentNullException(nameof(methodName), "Must use method name");
-
-            try
-            {
-                var isRunning = RunningDictionary.TryPeek(out _);
-                if (isRunning)
-                {
-                    Debug.Log($"Failed to run {methodName}, because it is already running");
-                    return;
-                }
-
-                RunningDictionary.Add(methodName);
-
-                methodBody();
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            }
-            finally
-            {
-                RunningDictionary.TryTake(out _);
-            }
-        }
     }
 }
