@@ -1,4 +1,5 @@
 # 0.4.0
+- Set UnityProjectPath property in Directory.Build.props
 
 # 0.3.6
 - Get version during build from package.json
