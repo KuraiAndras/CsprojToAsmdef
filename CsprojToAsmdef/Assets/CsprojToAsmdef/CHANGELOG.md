@@ -1,3 +1,5 @@
+# 0.4.0
+
 # 0.3.6
 - Get version during build from package.json
 
