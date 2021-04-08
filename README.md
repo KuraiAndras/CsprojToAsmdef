@@ -13,17 +13,22 @@ Generate [asmdef](https://docs.unity3d.com/Manual/ScriptCompilationAssemblyDefin
 
 - Make sure a recent version of the .NET cli is installed, and ```dotnet``` is available from the PATH.
 - Use [OpenUPM](https://openupm.com/) to install the package.
+- Install the ```CsrpojToAsmdef.Cli``` global tool globally
 
-```bash
+```powershell
+dotnet tool install -g CsrpojToAsmdef.Cli
+```
+
+```powershell
 openupm add com.kuraiandras.csprojtoasmdef
 ```
 
-1. In the new menu item click the button: Initialize Unity project
-2. Create a class library project inside the Assets folder. Makes sure that the project is using .NET Standard 2.0 (.NET Framework 4.7 should also be supported, but it is not tested)
-3. Add the created csproj to a solution. This preferably should be located above the base unity folder (or higher in hierarchy)
-4. Make sure the Directory.Build.props file references the desired Unity and Language version
-5. Click the generate all asmdef files button
-6. Click the restore all projects button
+1. In the ```Csproj Tools``` menu click the button: ```Initialize Unity project```
+2. Manually set the current Unity Version in the ```Directory.Build.props``` file
+3. Create a class library project inside the Assets folder. Makes sure that the project is using .NET Standard 2.0 (.NET Framework 4.7 should also be supported, but it is not tested)
+4. Add the created csproj to a solution. This preferably should be located above the base unity folder (or higher in hierarchy)
+5. Make sure the Directory.Build.props file references the desired Unity and Language version
+6. Click the generate all asmdef files button
 7. Make sure the ```bin``` folder is ignored in version control - or don't
 8. Make sure the ```.obj``` folder is ignored in version control
 8. Make sure that .csproj files under the Assets folder are NOT ignored by version control
@@ -51,13 +56,18 @@ Asmdef references are handled by the following pattern:
 
 Where '*' means the name of the assembly definition Unity compiles. For this to work you will need to set the ```UnityProjectPath``` property to point to the correct folder (usually a relative path upwards. Check out Sample.csproj).
 
+## Upgrade guide
+
+- Upgrade the UPM package to the desired version
+- Install the global tool with the same version as the package
+
 ## Current State
 
 - [VSTU](https://docs.microsoft.com/en-us/visualstudio/gamedev/unity/get-started/visual-studio-tools-for-unity) is not supported
-- Debugging works, if you attach the Unity debugger manually (VSTU button, attach unity debugger)
+- Debugging works, if you attach the Unity debugger manually (VSTU button -> attach unity debugger)
 - ReSharper (and possibly Rider) works as expected
 - VSCode can attach debugger, can't start editor.
-- Currently the package requires Unity 2020.2 . It should work from 2019.1 and up, but will require manual installation. This might change in the future
+- Unity 2019.2 and up is supported. For Unity version >= 2020.2 set the ```LangVersion``` property to 8.0, for >= 2021.2 set it to 9.0 . Keep in mind the limitations of Unity with language versions higher than 7.3
 - Multiple csproj files are supported (in separate folders), but cross referencing them is not
 - Requires a Unity installation. If you want to use this in a CI/CD environment you will need to install the Unity Editor, although you do not need to run or activate it in order to work. If you have UPM references, you will need to make Unity initialize the project
 
