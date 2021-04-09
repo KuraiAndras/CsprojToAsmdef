@@ -1,5 +1,7 @@
 # 0.4.0
 - Set UnityProjectPath property in Directory.Build.props
+- Generate asmdef files with explicit DLL references
+- Referenced DLLs are copied to NuGet folder under Assets
 
 # 0.3.6
 - Get version during build from package.json

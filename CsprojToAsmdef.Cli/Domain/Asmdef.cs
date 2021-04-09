@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Build.Evaluation;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.Build.Evaluation;
 
 namespace CsprojToAsmdef.Cli.Domain
 {
@@ -13,7 +13,7 @@ namespace CsprojToAsmdef.Cli.Domain
     [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "False positive")]
     public sealed class Asmdef
     {
-        public Asmdef(Project project)
+        public Asmdef(Project project, ImmutableArray<string> copiedFiles)
         {
             var properties = project.AllEvaluatedProperties;
 
@@ -22,11 +22,11 @@ namespace CsprojToAsmdef.Cli.Domain
             IncludePlatforms = GetCollectionProperty(properties, nameof(IncludePlatforms));
             ExcludePlatforms = GetCollectionProperty(properties, nameof(ExcludePlatforms));
             AllowUnsafeCode = GetBoolProperty(properties, "AllowUnsafeBlocks", false);
-            OverrideReferences = false;
-            PrecompiledReferences = ImmutableArray<string>.Empty;
+            OverrideReferences = true;
+            PrecompiledReferences = copiedFiles.Where(f => Path.GetExtension(f) != "dll").Select(f => Path.GetFileName(f)!).ToImmutableArray();
             AutoReferenced = GetBoolProperty(properties, nameof(AutoReferenced), true);
             DefineConstraints = GetCollectionProperty(properties, nameof(DefineConstraints));
-            VersionDefines = GetCollectionProperty(properties, nameof(VersionDefines));
+            VersionDefines = ImmutableArray<string>.Empty;
             NoEngineReferences = GetBoolProperty(properties, nameof(NoEngineReferences), false);
         }
 

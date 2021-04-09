@@ -14,8 +14,25 @@ namespace CsprojToAsmdef
             {
                 var mainStopwatch = Stopwatch.StartNew();
 
+                Debug.Log("Started fixing up all projects");
+
+                var dataPath = Application.dataPath;
+                var nuGetFolder = Path.Combine(Application.dataPath, "NuGet");
+
+                await Task.Run(() =>
+                {
+                    Directory.EnumerateFiles(nuGetFolder, "*", SearchOption.AllDirectories)
+                        .Where(f =>
+                        {
+                            var fileName = Path.GetFileName(f);
+                            return fileName != ".gitignore" && Path.GetExtension(fileName) != "*.meta";
+                        })
+                        .ToList()
+                        .ForEach(File.Delete);
+                }).ConfigureAwait(false);
+
                 foreach (var filePath in Directory
-                    .EnumerateFiles(Application.dataPath, "*.csproj", SearchOption.AllDirectories)
+                    .EnumerateFiles(dataPath, "*.csproj", SearchOption.AllDirectories)
                     .Select(Path.GetFullPath))
                 {
                     var projectStopWatch = Stopwatch.StartNew();

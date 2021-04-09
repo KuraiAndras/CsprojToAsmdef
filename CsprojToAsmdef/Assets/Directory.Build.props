@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <BaseIntermediateOutputPath>.obj\</BaseIntermediateOutputPath>
+    <BaseOutputPath>.bin\</BaseOutputPath>
     <LangVersion>7.3</LangVersion>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
