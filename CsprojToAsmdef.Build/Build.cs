@@ -1,6 +1,5 @@
 using Nuke.Common;
 using Nuke.Common.CI;
-using Nuke.Common.Execution;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
 using System;
@@ -9,7 +8,6 @@ using System.Linq;
 using System.Text.Json;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
-[CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
 partial class Build : NukeBuild
 {
