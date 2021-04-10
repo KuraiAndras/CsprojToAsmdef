@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <Target Name="FixUpProject" AfterTargets="AfterBuild">
-      <Exec Command="$(AsmdefToolAccess) FixUpProject $(MSBuildProjectFullPath) $(MSBuildThisFileDirectory)"/>
+      <Exec Command="$(AsmdefToolAccess) FixUpProject $(MSBuildProjectFullPath)"/>
   </Target>
 
 </Project>

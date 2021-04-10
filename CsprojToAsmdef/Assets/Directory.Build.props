@@ -9,6 +9,7 @@
 
   <PropertyGroup>
     <UnityProjectPath>$(MSBuildThisFileDirectory)\..</UnityProjectPath>
+    <AssetsFolder>$(MSBuildThisFileDirectory)</AssetsFolder>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
