@@ -15,6 +15,6 @@ jobs:
       - name: Setup Current .NET SDK
         uses: actions/setup-dotnet@v1.7.2
 
-      - name: Publish to NuGet
+      - name: Check Formatting
         shell: pwsh
         run: ./build.ps1 CheckFormatting
