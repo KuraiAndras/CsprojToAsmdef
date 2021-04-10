@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CliWrap;
+using MoreLinq;
+using System;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
@@ -6,8 +8,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using CliWrap;
-using MoreLinq;
 
 namespace CsprojToAsmdef.Cli.Domain.Services.DotNet
 {
