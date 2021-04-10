@@ -45,7 +45,6 @@ You can also configure the asmdef generation via csproj properties. When the pro
 | **allowUnsafeCode** | **AllowUnsafeBlocks** |
 | autoReferenced      | AutoReferenced        |
 | defineConstraints   | DefineConstraints     |
-| versionDefines      | VersionDefines        |
 | noEngineReferences  | NoEngineReferences    |
 
 Asmdef references are handled by the following pattern:

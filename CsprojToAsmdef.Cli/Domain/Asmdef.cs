@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Build.Evaluation;
+using MoreLinq.Extensions;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using Microsoft.Build.Evaluation;
 
 namespace CsprojToAsmdef.Cli.Domain
 {
@@ -13,48 +13,25 @@ namespace CsprojToAsmdef.Cli.Domain
     [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "False positive")]
     public sealed class Asmdef
     {
+        private readonly Project _project;
+
         public Asmdef(Project project)
         {
-            var properties = project.AllEvaluatedProperties;
+            _project = project;
 
-            Name = GetName(project.FullPath);
-            References = GetReferences(project.AllEvaluatedItems);
+            var properties = _project.AllEvaluatedProperties;
+
+            Name = GetName(_project.FullPath);
+            References = GetReferences(_project.AllEvaluatedItems);
             IncludePlatforms = GetCollectionProperty(properties, nameof(IncludePlatforms));
             ExcludePlatforms = GetCollectionProperty(properties, nameof(ExcludePlatforms));
             AllowUnsafeCode = GetBoolProperty(properties, "AllowUnsafeBlocks", false);
-            OverrideReferences = false;
-            PrecompiledReferences = ImmutableArray<string>.Empty;
+            OverrideReferences = true;
+            PrecompiledReferences = GetFilesToCopy().Where(f => Path.GetExtension(f) != "dll").Select(f => Path.GetFileName(f)!).ToImmutableArray();
             AutoReferenced = GetBoolProperty(properties, nameof(AutoReferenced), true);
             DefineConstraints = GetCollectionProperty(properties, nameof(DefineConstraints));
-            VersionDefines = GetCollectionProperty(properties, nameof(VersionDefines));
+            VersionDefines = ImmutableArray<string>.Empty;
             NoEngineReferences = GetBoolProperty(properties, nameof(NoEngineReferences), false);
-        }
-
-        [JsonConstructor]
-        public Asmdef(
-            string name,
-            ImmutableArray<string> references,
-            ImmutableArray<string> includePlatforms,
-            ImmutableArray<string> excludePlatforms,
-            bool allowUnsafeCode,
-            bool overrideReferences,
-            ImmutableArray<string> precompiledReferences,
-            bool autoReferenced,
-            ImmutableArray<string> defineConstraints,
-            ImmutableArray<string> versionDefines,
-            bool noEngineReferences)
-        {
-            Name = name;
-            References = references;
-            IncludePlatforms = includePlatforms;
-            ExcludePlatforms = excludePlatforms;
-            AllowUnsafeCode = allowUnsafeCode;
-            OverrideReferences = overrideReferences;
-            PrecompiledReferences = precompiledReferences;
-            AutoReferenced = autoReferenced;
-            DefineConstraints = defineConstraints;
-            VersionDefines = versionDefines;
-            NoEngineReferences = noEngineReferences;
         }
 
         public string Name { get; }
@@ -69,7 +46,50 @@ namespace CsprojToAsmdef.Cli.Domain
         public ImmutableArray<string> VersionDefines { get; }
         public bool NoEngineReferences { get; }
 
-        public string CreateFileName() => Name + ".asmdef";
+        public string GetFilePath() =>
+            Path.GetFullPath(
+                Path.Combine(
+                    _project.DirectoryPath,
+                    Name + ".asmdef"));
+
+        public string GetNuGetFolder() =>
+            Path.GetFullPath(
+                Path.Combine(
+                    _project
+                        .AllEvaluatedProperties
+                        .Single(p => p.Name == "AssetsFolder")
+                        .EvaluatedValue,
+                    "NuGet"));
+
+        public string GetOutputDirectory()
+        {
+            // There must be a better way for this.
+            var outputDirectoryFromProject = _project
+                .AllEvaluatedProperties
+                .Where(p => p.Name == "OutputPath")
+                .Select(p => p.EvaluatedValue)
+                .Distinct()
+                .MaxBy(v => v.Length)
+                .First();
+
+            return Path.GetFullPath(Path.Combine(_project.DirectoryPath, outputDirectoryFromProject));
+        }
+
+        public ImmutableArray<string> GetFilesToCopy()
+        {
+            var outputDirectory = GetOutputDirectory();
+            var projectName = Path.GetFileNameWithoutExtension(_project.FullPath);
+
+            return Directory
+                .EnumerateFiles(outputDirectory, "*", SearchOption.AllDirectories)
+                .Where(f =>
+                {
+                    var fileName = Path.GetFileName(f);
+
+                    return fileName != $"{projectName}.dll" && fileName != $"{projectName}.pdb" && !f.EndsWith(".deps.json") && !f.EndsWith(".dll.RoslynCA.json");
+                })
+                .ToImmutableArray();
+        }
 
         private static string GetName(string projectPath) => Path.GetFileNameWithoutExtension(projectPath);
 
