@@ -6,9 +6,9 @@ partial class Build
     [PackageExecutable("dotnet-format", "dotnet-format.dll")]
     readonly Tool DotNetFormat = default!;
 
-    Target CheckFormat => _ => _
+    Target CheckFormatting => _ => _
         .Executes(() => DotNetFormat("--check --verbosity diagnostic"));
 
-    Target Format => _ => _
+    Target RunFormat => _ => _
         .Executes(() => DotNetFormat("--verbosity diagnostic"));
 }

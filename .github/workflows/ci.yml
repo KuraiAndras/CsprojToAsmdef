@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  check-formatting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2.1.0
+
+      - name: Setup Current .NET SDK
+        uses: actions/setup-dotnet@v1.7.2
+
+      - name: Publish to NuGet
+        shell: pwsh
+        run: ./build.ps1 CheckFormatting
