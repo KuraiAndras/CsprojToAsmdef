@@ -74,10 +74,13 @@
             "enum": [
               "CheckFormatting",
               "Compile",
+              "InstallCli",
+              "InstallCliFirstTime",
               "Pack",
               "PushNuGet",
               "Restore",
-              "RunFormat"
+              "RunFormat",
+              "UnInstallCli"
             ]
           }
         },
@@ -93,10 +96,13 @@
             "enum": [
               "CheckFormatting",
               "Compile",
+              "InstallCli",
+              "InstallCliFirstTime",
               "Pack",
               "PushNuGet",
               "Restore",
-              "RunFormat"
+              "RunFormat",
+              "UnInstallCli"
             ]
           }
         },
