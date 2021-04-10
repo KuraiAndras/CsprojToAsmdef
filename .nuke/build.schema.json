@@ -72,12 +72,12 @@
           "items": {
             "type": "string",
             "enum": [
-              "CheckFormat",
+              "CheckFormatting",
               "Compile",
-              "Format",
               "Pack",
               "PushNuGet",
-              "Restore"
+              "Restore",
+              "RunFormat"
             ]
           }
         },
@@ -91,12 +91,12 @@
           "items": {
             "type": "string",
             "enum": [
-              "CheckFormat",
+              "CheckFormatting",
               "Compile",
-              "Format",
               "Pack",
               "PushNuGet",
-              "Restore"
+              "Restore",
+              "RunFormat"
             ]
           }
         },
