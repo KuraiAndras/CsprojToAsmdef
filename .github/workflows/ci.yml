@@ -18,3 +18,17 @@ jobs:
       - name: Check Formatting
         shell: pwsh
         run: ./build.ps1 CheckFormatting
+
+  install-tool:
+    runs-on: ubuntu-latest
+    needs: check-formatting
+
+    steps:
+      - uses: actions/checkout@v2.1.0
+
+      - name: Setup Current .NET SDK
+        uses: actions/setup-dotnet@v1.7.2
+
+      - name: Install tool
+        shell: pwsh
+        run: ./build.ps1 InstallCliFirstTime
