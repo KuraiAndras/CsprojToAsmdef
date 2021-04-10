@@ -72,7 +72,9 @@
           "items": {
             "type": "string",
             "enum": [
+              "CheckFormat",
               "Compile",
+              "Format",
               "Pack",
               "PushNuGet",
               "Restore"
@@ -89,7 +91,9 @@
           "items": {
             "type": "string",
             "enum": [
+              "CheckFormat",
               "Compile",
+              "Format",
               "Pack",
               "PushNuGet",
               "Restore"
