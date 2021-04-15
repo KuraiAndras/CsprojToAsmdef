@@ -1,6 +1,5 @@
 ﻿using Microsoft.Build.Evaluation;
 using MoreLinq.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
@@ -33,7 +32,10 @@ namespace CsprojToAsmdef.Cli.Domain
             ExcludePlatforms = GetCollectionProperty(properties, nameof(ExcludePlatforms));
             AllowUnsafeCode = GetBoolProperty(properties, "AllowUnsafeBlocks", false);
             OverrideReferences = true;
-            PrecompiledReferences = GetFilesToCopy().Where(f => Path.GetExtension(f) != "dll").Select(f => Path.GetFileName(f)!).ToImmutableArray();
+            PrecompiledReferences = GetFilesToCopy()
+                .Where(f => Path.GetExtension(f) != "dll")
+                .Select(f => Path.GetFileName(f)!)
+                .ToImmutableArray();
             AutoReferenced = GetBoolProperty(properties, nameof(AutoReferenced), true);
             DefineConstraints = GetCollectionProperty(properties, nameof(DefineConstraints));
             VersionDefines = ImmutableArray<string>.Empty;
@@ -78,6 +80,7 @@ namespace CsprojToAsmdef.Cli.Domain
         {
             var outputDirectory = GetOutputDirectory();
             var projectName = Path.GetFileNameWithoutExtension(_project.FullPath);
+            var referencedAsmdefs = References.Select(r => $"{r}.dll").ToImmutableArray();
 
             return Directory
                 .EnumerateFiles(outputDirectory, "*", SearchOption.AllDirectories)
@@ -85,7 +88,11 @@ namespace CsprojToAsmdef.Cli.Domain
                 {
                     var fileName = Path.GetFileName(f);
 
-                    return fileName != $"{projectName}.dll" && fileName != $"{projectName}.pdb" && !f.EndsWith(".deps.json") && !f.EndsWith(".dll.RoslynCA.json");
+                    return fileName != $"{projectName}.dll"
+                           && !f.EndsWith(".pdb")
+                           && !f.EndsWith(".deps.json")
+                           && !f.EndsWith(".dll.RoslynCA.json")
+                           && !referencedAsmdefs.Contains(fileName);
                 })
                 .ToImmutableArray();
         }

@@ -35,6 +35,7 @@
         "Microsoft.Extensions.Options.ConfigurationExtensions.dll",
         "Microsoft.Extensions.Options.dll",
         "Microsoft.Extensions.Primitives.dll",
+        "Serilog.dll",
         "System.Buffers.dll",
         "System.Diagnostics.DiagnosticSource.dll",
         "System.Diagnostics.EventLog.dll",
