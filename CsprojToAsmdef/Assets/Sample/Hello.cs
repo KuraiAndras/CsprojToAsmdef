@@ -1,4 +1,5 @@
 ﻿using SampleUnityDependency;
+using SomeOtherDependency;
 using TMPro;
 using UnityEngine;
 
@@ -11,8 +12,8 @@ namespace Sample
 
         private void Start()
         {
-            CustomLogger.LogWarning("Hello");
-            _text.text = "Hello";
+            CustomLogger.LogWarning("My dude!");
+            _text.text = Messenger.GetMessage();
         }
     }
 }

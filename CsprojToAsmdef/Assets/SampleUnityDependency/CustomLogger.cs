@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using Serilog.Sinks.Unity3D;
+using SomeOtherDependency;
 using ILogger = Serilog.ILogger;
 
 namespace SampleUnityDependency
@@ -11,6 +12,6 @@ namespace SampleUnityDependency
             .CreateLogger();
 
         // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
-        public static void LogWarning(string message) => MyLogger.Warning(message);
+        public static void LogWarning(string message) => MyLogger.Warning($"{Messenger.GetMessage()} {message}");
     }
 }
