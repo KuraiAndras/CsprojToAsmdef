@@ -1,0 +1,17 @@
+{
+    "name": "SampleUnityDependency",
+    "references": [
+        "Serilog.Sinks.Unity3D"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Serilog.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
