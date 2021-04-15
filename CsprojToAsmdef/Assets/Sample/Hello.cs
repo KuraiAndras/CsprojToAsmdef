@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using SampleUnityDependency;
+using TMPro;
 using UnityEngine;
 
 namespace Sample
@@ -10,7 +11,7 @@ namespace Sample
 
         private void Start()
         {
-            Debug.Log("Hello");
+            CustomLogger.LogWarning("Hello");
             _text.text = "Hello";
         }
     }
