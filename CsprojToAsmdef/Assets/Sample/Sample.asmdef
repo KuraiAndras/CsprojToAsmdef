@@ -1,7 +1,8 @@
 {
     "name": "Sample",
     "references": [
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "SampleUnityDependency"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
