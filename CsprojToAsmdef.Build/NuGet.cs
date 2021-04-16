@@ -53,7 +53,9 @@ partial class Build
                 .Aggregate(new StringBuilder(), (sb, l) => sb.AppendLine(l))
                 .ToString();
 
-            var files = GetAllNupkg()
+            var files = Enumerable.Empty<string>()
+                .Concat(GetAllNupkg())
+                .Concat(EnumerateFiles(Solution.Directory, "*.snupkg", SearchOption.AllDirectories))
                 .Aggregate(new StringBuilder(), (sb, f) => sb.Append('\"').Append(f).Append("\" "))
                 .ToString();
 
