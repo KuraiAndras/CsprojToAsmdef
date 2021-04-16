@@ -23,6 +23,4 @@ jobs:
 
       - name: Publish to NuGet
         shell: pwsh
-        env:
-          NUGET_API_KEY: ${{secrets.NUGET_API_KEY}}
         run: ./build.ps1 PushNuGet --ci-build --configuration Release --nuget-api-key "${{ secrets.NUGET_API_KEY }}"
