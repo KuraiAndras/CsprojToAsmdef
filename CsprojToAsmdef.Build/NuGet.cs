@@ -19,7 +19,7 @@ partial class Build
     [Parameter("NuGet API key to use for authentication with the NuGet server")]
     readonly string? NugetApiKey;
 
-    [PathExecutable("gh.exe")] readonly Tool Gh = default!;
+    [PathExecutable] readonly Tool Gh = default!;
 
     Target Pack => _ => _
         .DependsOn(BuildCli)

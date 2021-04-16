@@ -15,10 +15,6 @@ jobs:
       - name: Setup Current .NET SDK
         uses: actions/setup-dotnet@v1.7.2
 
-      - name: Asd
-        shell: pwsh
-        run: gh --version
-
       - name: Run CI
         shell: pwsh
         run: ./build.ps1 RunCi --ci-build --configuration Release
