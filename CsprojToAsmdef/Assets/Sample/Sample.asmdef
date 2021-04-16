@@ -1,6 +1,9 @@
 {
     "name": "Sample",
     "references": [
+        "SampleUnityDependency",
+        "Serilog.Sinks.Unity3D",
+        "SomeOtherDependency",
         "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
@@ -34,6 +37,7 @@
         "Microsoft.Extensions.Options.ConfigurationExtensions.dll",
         "Microsoft.Extensions.Options.dll",
         "Microsoft.Extensions.Primitives.dll",
+        "Serilog.dll",
         "System.Buffers.dll",
         "System.Diagnostics.DiagnosticSource.dll",
         "System.Diagnostics.EventLog.dll",

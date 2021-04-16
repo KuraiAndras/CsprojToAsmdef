@@ -52,5 +52,6 @@ partial class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .SetVersion(CurrentVersion)
                 .SetContinuousIntegrationBuild(CiBuild)
+                .SetNoIncremental(true)
                 .EnableNoRestore()));
 }

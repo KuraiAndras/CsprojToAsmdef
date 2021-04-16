@@ -14,20 +14,29 @@ namespace CsprojToAsmdef.Cli.Domain
     public sealed class Asmdef
     {
         private readonly Project _project;
+        private readonly string _assetsFolder;
 
         public Asmdef(Project project)
         {
             _project = project;
+            _assetsFolder = _project
+                .AllEvaluatedProperties
+                .Single(p => p.Name == "AssetsFolder")
+                .EvaluatedValue;
 
             var properties = _project.AllEvaluatedProperties;
 
             Name = GetName(_project.FullPath);
-            References = GetReferences(_project.AllEvaluatedItems);
+            References = GetReferences();
             IncludePlatforms = GetCollectionProperty(properties, nameof(IncludePlatforms));
             ExcludePlatforms = GetCollectionProperty(properties, nameof(ExcludePlatforms));
             AllowUnsafeCode = GetBoolProperty(properties, "AllowUnsafeBlocks", false);
             OverrideReferences = true;
-            PrecompiledReferences = GetFilesToCopy().Where(f => Path.GetExtension(f) != "dll").Select(f => Path.GetFileName(f)!).ToImmutableArray();
+            PrecompiledReferences = GetFilesToCopy()
+                .Where(f => Path.GetExtension(f) != "dll")
+                .Select(f => Path.GetFileName(f)!)
+                .OrderBy(f => f)
+                .ToImmutableArray();
             AutoReferenced = GetBoolProperty(properties, nameof(AutoReferenced), true);
             DefineConstraints = GetCollectionProperty(properties, nameof(DefineConstraints));
             VersionDefines = ImmutableArray<string>.Empty;
@@ -52,14 +61,7 @@ namespace CsprojToAsmdef.Cli.Domain
                     _project.DirectoryPath,
                     Name + ".asmdef"));
 
-        public string GetNuGetFolder() =>
-            Path.GetFullPath(
-                Path.Combine(
-                    _project
-                        .AllEvaluatedProperties
-                        .Single(p => p.Name == "AssetsFolder")
-                        .EvaluatedValue,
-                    "NuGet"));
+        public string GetNuGetFolder() => Path.GetFullPath(Path.Combine(_assetsFolder, "NuGet"));
 
         public string GetOutputDirectory()
         {
@@ -79,6 +81,7 @@ namespace CsprojToAsmdef.Cli.Domain
         {
             var outputDirectory = GetOutputDirectory();
             var projectName = Path.GetFileNameWithoutExtension(_project.FullPath);
+            var referencedAsmdefs = References.Select(r => $"{r}.dll").ToImmutableArray();
 
             return Directory
                 .EnumerateFiles(outputDirectory, "*", SearchOption.AllDirectories)
@@ -86,7 +89,11 @@ namespace CsprojToAsmdef.Cli.Domain
                 {
                     var fileName = Path.GetFileName(f);
 
-                    return fileName != $"{projectName}.dll" && fileName != $"{projectName}.pdb" && !f.EndsWith(".deps.json") && !f.EndsWith(".dll.RoslynCA.json");
+                    return fileName != $"{projectName}.dll"
+                           && !f.EndsWith(".pdb")
+                           && !f.EndsWith(".deps.json")
+                           && !f.EndsWith(".dll.RoslynCA.json")
+                           && !referencedAsmdefs.Contains(fileName);
                 })
                 .ToImmutableArray();
         }
@@ -112,13 +119,35 @@ namespace CsprojToAsmdef.Cli.Domain
                 : defaultValue;
         }
 
-        private static ImmutableArray<string> GetReferences(IEnumerable<ProjectItem> items) =>
-            items
-                .Where(i => i.ItemType == "Reference")
+        private ImmutableArray<string> GetReferences()
+        {
+            var upmReferences = _project.AllEvaluatedItems
+                .Where(i => i.ItemType is "Reference")
                 .Select(i => i.EvaluatedInclude)
                 .Where(i => i.Contains("ScriptAssemblies"))
-                .Select(i => Path.GetFileNameWithoutExtension(i)!)
                 .ToImmutableArray();
+
+            var internalProjectReferences = _project.AllEvaluatedItems
+                .Where(i => i.ItemType is "ProjectReference")
+                .Select(i => i.EvaluatedInclude)
+                .Select(i => Path.IsPathRooted(i)
+                    ? i
+                    : Path.GetFullPath(Path.Combine(_project.DirectoryPath, i)))
+                .Where(i => i.StartsWith(_assetsFolder))
+                .ToImmutableArray();
+
+            var transitiveAsmdefReferences = internalProjectReferences
+                .SelectMany(p => new Asmdef(new Project(p)).References);
+
+            return Enumerable.Empty<string>()
+                .Concat(upmReferences)
+                .Concat(internalProjectReferences)
+                .Select(i => Path.GetFileNameWithoutExtension(i)!)
+                .Concat(transitiveAsmdefReferences)
+                .Distinct()
+                .OrderBy(i => i)
+                .ToImmutableArray();
+        }
 
         public string CreateJson() =>
             JsonSerializer

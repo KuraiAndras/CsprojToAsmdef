@@ -18,7 +18,11 @@ namespace CsprojToAsmdef.Cli
 
         public FixUpProject(IDotNetTooling dotNet) => _dotNet = dotNet;
 
-        [CommandParameter(0)] public string ProjectPath { get; init; } = string.Empty;
+        [CommandParameter(
+            0,
+            Name = nameof(ProjectPath),
+            Description = "Path to the csproj file. Use full path")]
+        public string ProjectPath { get; init; } = string.Empty;
 
         public async ValueTask ExecuteAsync(IConsole console)
         {
@@ -32,15 +36,15 @@ namespace CsprojToAsmdef.Cli
 
             await console.Output.WriteLineAsync($"Started fixing up project: {ProjectPath}");
 
-            await console.Output.WriteLineAsync("Starting copying Dlls");
+            await console.Output.WriteLineAsync($"Started copying Dlls for project: {ProjectPath}");
             CopyFilesToNuGetFolder(asmdef);
-            await console.Output.WriteLineAsync("Finished copying Dlls");
+            await console.Output.WriteLineAsync($"Finished copying Dlls for project: {ProjectPath}");
 
-            await console.Output.WriteLineAsync("Starting creating asmdef file");
+            await console.Output.WriteLineAsync($"Started creating asmdef file for project: {ProjectPath}");
             await CreateAsmdefFromCsproj(asmdef);
-            await console.Output.WriteLineAsync("Finished creating asmdef file");
+            await console.Output.WriteLineAsync($"Finished creating asmdef file for project: {ProjectPath}");
 
-            await console.Output.WriteLineAsync("Finished fixing up project");
+            await console.Output.WriteLineAsync($"Finished fixing up project for project: {ProjectPath}");
 
             stopwatch.Stop();
             await console.Output.WriteLineAsync($"Fixing up project took: {stopwatch.Elapsed}");
