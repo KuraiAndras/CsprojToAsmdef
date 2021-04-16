@@ -20,5 +20,6 @@ jobs:
 
       - name: Run Nukeeper
         shell: pwsh
-        run: |
-          ./build.ps1 UpdatePackages --github-token ${{ secrets.GITHUB_TOKEN }}
+        run: ./build.ps1 UpdatePackages --github-token ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
