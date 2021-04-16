@@ -1,8 +1,10 @@
 {
     "name": "Sample",
     "references": [
-        "Unity.TextMeshPro",
-        "SampleUnityDependency"
+        "SampleUnityDependency",
+        "Serilog.Sinks.Unity3D",
+        "SomeOtherDependency",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

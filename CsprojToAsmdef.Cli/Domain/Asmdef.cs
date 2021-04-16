@@ -35,6 +35,7 @@ namespace CsprojToAsmdef.Cli.Domain
             PrecompiledReferences = GetFilesToCopy()
                 .Where(f => Path.GetExtension(f) != "dll")
                 .Select(f => Path.GetFileName(f)!)
+                .OrderBy(f => f)
                 .ToImmutableArray();
             AutoReferenced = GetBoolProperty(properties, nameof(AutoReferenced), true);
             DefineConstraints = GetCollectionProperty(properties, nameof(DefineConstraints));
@@ -129,19 +130,22 @@ namespace CsprojToAsmdef.Cli.Domain
             var internalProjectReferences = _project.AllEvaluatedItems
                 .Where(i => i.ItemType is "ProjectReference")
                 .Select(i => i.EvaluatedInclude)
-                .Where(i =>
-                {
-                    var fullProjectPath = Path.IsPathRooted(i)
-                        ? i
-                        : Path.GetFullPath(Path.Combine(_project.DirectoryPath, i));
+                .Select(i => Path.IsPathRooted(i)
+                    ? i
+                    : Path.GetFullPath(Path.Combine(_project.DirectoryPath, i)))
+                .Where(i => i.StartsWith(_assetsFolder))
+                .ToImmutableArray();
 
-                    return fullProjectPath.StartsWith(_assetsFolder);
-                });
+            var transitiveAsmdefReferences = internalProjectReferences
+                .SelectMany(p => new Asmdef(new Project(p)).References);
 
             return Enumerable.Empty<string>()
                 .Concat(upmReferences)
                 .Concat(internalProjectReferences)
                 .Select(i => Path.GetFileNameWithoutExtension(i)!)
+                .Concat(transitiveAsmdefReferences)
+                .Distinct()
+                .OrderBy(i => i)
                 .ToImmutableArray();
         }
 
