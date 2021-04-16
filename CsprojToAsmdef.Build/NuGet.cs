@@ -2,6 +2,7 @@
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Utilities.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -31,13 +32,20 @@ partial class Build
                 .EnableNoRestore()));
 
     Target PushTag => _ => _
-        .DependentFor(PushNuGet)
         .Executes(() =>
         {
             var version = CurrentVersion;
 
             Git($"tag {version}");
             Git($"push origin {version}");
+        });
+
+    Target CreateGithubRelease => _ => _
+        .DependsOn(PushTag)
+        .DependentFor(PushNuGet)
+        .Executes(() =>
+        {
+            var version = CurrentVersion;
 
             var notes = File.ReadAllLines(Path.Combine(PackageDirectory, "CHANGELOG.md"))
                 .Skip(1)
@@ -45,17 +53,23 @@ partial class Build
                 .Aggregate(new StringBuilder(), (sb, l) => sb.AppendLine(l))
                 .ToString();
 
-            Gh($"release create {version} -t {version} -n \"{notes}\"");
+            var files = GetAllNupkg()
+                .Aggregate(new StringBuilder(), (sb, f) => sb.Append('\"').Append(f).Append("\" "))
+                .ToString();
+
+            Gh($"release create {version} -t {version} -n \"{notes}\" {files}");
         });
 
     Target PushNuGet => _ => _
         .DependsOn(Pack)
         .Requires(() => NugetApiKey)
         .Executes(() =>
-            EnumerateFiles(Solution.Directory, "*.nupkg", SearchOption.AllDirectories)
+            GetAllNupkg()
                 .ForEach(n =>
                     DotNetNuGetPush(s => s
                         .SetTargetPath(n)
                         .SetApiKey(NugetApiKey)
                         .SetSource(NugetApiUrl))));
+
+    IEnumerable<string> GetAllNupkg() => EnumerateFiles(Solution.Directory, "*.nupkg", SearchOption.AllDirectories);
 }
