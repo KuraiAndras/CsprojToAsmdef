@@ -19,11 +19,15 @@ partial class Build : NukeBuild
 
     [Solution] readonly Solution Solution = default!;
 
+    string PackageDirectory => Path.Combine(Solution.Directory, "CsprojToAsmdef", "Assets", "CsprojToAsmdef");
+
     string CurrentVersion
     {
         get
         {
-            var packagePath = Path.Combine(Solution.Directory, "CsprojToAsmdef", "Assets", "CsprojToAsmdef", "package.json");
+            var packageDirectory = PackageDirectory;
+
+            var packagePath = Path.Combine(packageDirectory, "package.json");
 
             if (!File.Exists(packagePath)) throw new InvalidOperationException($"package.json does not exist at path: {packagePath}");
 
