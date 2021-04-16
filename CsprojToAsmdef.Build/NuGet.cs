@@ -4,6 +4,7 @@ using Nuke.Common.Utilities.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.Tools.Git.GitTasks;
 using static System.IO.Directory;
 
 partial class Build
@@ -23,6 +24,16 @@ partial class Build
                 .SetVersion(CurrentVersion)
                 .EnableNoBuild()
                 .EnableNoRestore()));
+
+    Target PushTag => _ => _
+        .DependentFor(PushNuGet)
+        .Executes(() =>
+        {
+            var version = CurrentVersion;
+
+            Git($"tag {version}");
+            Git($"push origin {version}");
+        });
 
     Target PushNuGet => _ => _
         .DependsOn(Pack)
