@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Nuke.Common;
+﻿using Nuke.Common;
 using Nuke.Common.Tools.DotNet;
+using System.Collections.Immutable;
 using System.IO;
-using Nuke.Common.Tooling;
+using System.Linq;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 partial class Build
@@ -12,20 +12,21 @@ partial class Build
     Target UnInstallCli => _ => _
         .DependentFor(InstallCli)
         .Executes(() =>
+        {
+            var installedTools = DotNet("tool list -g");
+
+            if (!installedTools.Any(l => l.Text.Contains("asmdef-tool"))) return;
+
             DotNetToolUninstall(s => s
-                .SetGlobal(true)
-                .SetPackageName(CliName)));
+                .EnableGlobal()
+                .SetPackageName(CliName));
+        });
 
     Target InstallCli => _ => _
         .DependsOn(Pack)
-        .Executes(InstallCliInternal);
-
-    Target InstallCliFirstTime => _ => _
-        .DependsOn(Pack)
-        .Executes(InstallCliInternal);
-
-    IReadOnlyCollection<Output> InstallCliInternal() =>
-        DotNetToolInstall(s => s.SetGlobal(true)
-            .AddSources(Path.Combine(CliProject.Directory, "bin", Configuration))
-            .SetPackageName(CliName));
+        .Executes(() =>
+            DotNetToolInstall(s => s
+                .EnableGlobal()
+                .AddSources(Path.Combine(CliProject.Directory, "bin", Configuration))
+                .SetPackageName(CliName)));
 }

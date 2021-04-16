@@ -72,10 +72,10 @@
           "items": {
             "type": "string",
             "enum": [
+              "BuildAll",
+              "BuildCli",
               "CheckFormatting",
-              "Compile",
               "InstallCli",
-              "InstallCliFirstTime",
               "Pack",
               "PushNuGet",
               "Restore",
@@ -94,10 +94,10 @@
           "items": {
             "type": "string",
             "enum": [
+              "BuildAll",
+              "BuildCli",
               "CheckFormatting",
-              "Compile",
               "InstallCli",
-              "InstallCliFirstTime",
               "Pack",
               "PushNuGet",
               "Restore",
