@@ -79,6 +79,7 @@
               "Pack",
               "PushNuGet",
               "Restore",
+              "RunCi",
               "RunFormat",
               "UnInstallCli"
             ]
@@ -101,6 +102,7 @@
               "Pack",
               "PushNuGet",
               "Restore",
+              "RunCi",
               "RunFormat",
               "UnInstallCli"
             ]

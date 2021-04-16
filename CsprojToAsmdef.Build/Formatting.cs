@@ -7,6 +7,7 @@ partial class Build
     readonly Tool DotNetFormat = default!;
 
     Target CheckFormatting => _ => _
+        .Before(Restore)
         .Executes(() => DotNetFormat("--check --verbosity diagnostic"));
 
     Target RunFormat => _ => _

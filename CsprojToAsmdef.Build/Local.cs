@@ -1,6 +1,5 @@
 ﻿using Nuke.Common;
 using Nuke.Common.Tools.DotNet;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
