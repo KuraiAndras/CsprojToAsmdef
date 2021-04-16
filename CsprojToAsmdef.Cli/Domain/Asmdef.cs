@@ -2,15 +2,12 @@
 using MoreLinq.Extensions;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 
 namespace CsprojToAsmdef.Cli.Domain
 {
-    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "False positive")]
     public sealed class Asmdef
     {
         private readonly Project _project;
@@ -32,16 +29,15 @@ namespace CsprojToAsmdef.Cli.Domain
             ExcludePlatforms = GetCollectionProperty(properties, nameof(ExcludePlatforms));
             AllowUnsafeCode = GetBoolProperty(properties, "AllowUnsafeBlocks", false);
             OverrideReferences = true;
-            PrecompiledReferences = GetFilesToCopy()
-                .Where(f => Path.GetExtension(f) != "dll")
-                .Select(f => Path.GetFileName(f)!)
-                .OrderBy(f => f)
-                .ToImmutableArray();
+            PrecompiledReferences = GetPrecompiledReferences();
             AutoReferenced = GetBoolProperty(properties, nameof(AutoReferenced), true);
             DefineConstraints = GetCollectionProperty(properties, nameof(DefineConstraints));
             VersionDefines = ImmutableArray<string>.Empty;
             NoEngineReferences = GetBoolProperty(properties, nameof(NoEngineReferences), false);
         }
+
+        // ReSharper disable MemberCanBePrivate.Global
+        // ReSharper disable UnusedAutoPropertyAccessor.Global
 
         public string Name { get; }
         public ImmutableArray<string> References { get; }
@@ -54,6 +50,9 @@ namespace CsprojToAsmdef.Cli.Domain
         public ImmutableArray<string> DefineConstraints { get; }
         public ImmutableArray<string> VersionDefines { get; }
         public bool NoEngineReferences { get; }
+
+        // ReSharper enable UnusedAutoPropertyAccessor.Global
+        // ReSharper enable MemberCanBePrivate.Global
 
         public string GetFilePath() =>
             Path.GetFullPath(
@@ -98,6 +97,17 @@ namespace CsprojToAsmdef.Cli.Domain
                 .ToImmutableArray();
         }
 
+        public string CreateJson() =>
+            JsonSerializer
+                .Serialize(
+                    this,
+                    new JsonSerializerOptions(JsonSerializerDefaults.General)
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                        WriteIndented = true,
+                    })
+                .Replace("  ", "    ");
+
         private static string GetName(string projectPath) => Path.GetFileNameWithoutExtension(projectPath);
 
         private static ImmutableArray<string> GetCollectionProperty(IEnumerable<ProjectProperty> properties, string propertyName) =>
@@ -124,8 +134,7 @@ namespace CsprojToAsmdef.Cli.Domain
             var upmReferences = _project.AllEvaluatedItems
                 .Where(i => i.ItemType is "Reference")
                 .Select(i => i.EvaluatedInclude)
-                .Where(i => i.Contains("ScriptAssemblies"))
-                .ToImmutableArray();
+                .Where(i => i.Contains("ScriptAssemblies"));
 
             var internalProjectReferences = _project.AllEvaluatedItems
                 .Where(i => i.ItemType is "ProjectReference")
@@ -149,15 +158,11 @@ namespace CsprojToAsmdef.Cli.Domain
                 .ToImmutableArray();
         }
 
-        public string CreateJson() =>
-            JsonSerializer
-                .Serialize(
-                    this,
-                    new JsonSerializerOptions(JsonSerializerDefaults.General)
-                    {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                        WriteIndented = true,
-                    })
-                .Replace("  ", "    ");
+        private ImmutableArray<string> GetPrecompiledReferences() =>
+            GetFilesToCopy()
+                .Where(f => Path.GetExtension(f) != "dll")
+                .Select(f => Path.GetFileName(f)!)
+                .OrderBy(f => f)
+                .ToImmutableArray();
     }
 }

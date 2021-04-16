@@ -17,3 +17,57 @@ dotnet_diagnostic.CA1050.severity = none
 
 # IDE0051: Remove unused private members
 dotnet_diagnostic.IDE0051.severity = none
+
+# SA1208: System using directives should be placed before other using directives
+dotnet_diagnostic.SA1208.severity = none
+
+# SA1205: Partial elements should declare access
+dotnet_diagnostic.SA1205.severity = none
+
+# SA1601: Partial elements should be documented
+dotnet_diagnostic.SA1601.severity = none
+
+# SA1400: Access modifier should be declared
+dotnet_diagnostic.SA1400.severity = none
+
+# SA1101: Prefix local calls with this
+dotnet_diagnostic.SA1101.severity = none
+
+# SA1633: File should have header
+dotnet_diagnostic.SA1633.severity = none
+
+# SA1217: Using static directives should be ordered alphabetically
+dotnet_diagnostic.SA1217.severity = none
+
+# SA1306: Field names should begin with lower-case letter
+dotnet_diagnostic.SA1306.severity = none
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = none
+
+# SA1000: Keywords should be spaced correctly
+dotnet_diagnostic.SA1000.severity = none
+
+# SA1134: Attributes should not share line
+dotnet_diagnostic.SA1134.severity = none
+
+# SA1503: Braces should not be omitted
+dotnet_diagnostic.SA1503.severity = none
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none
+
+# IDE0005: Using directive is unnecessary.
+dotnet_diagnostic.IDE0005.severity = warning
+
+# RCS1110: Declare type inside namespace.
+dotnet_diagnostic.RCS1110.severity = none
+
+# RCS1018: Add accessibility modifiers (or vice versa).
+dotnet_diagnostic.RCS1018.severity = none
+
+# S1144: Unused private types or members should be removed
+dotnet_diagnostic.S1144.severity = none
+
+# S3903: Types should be defined in named namespaces
+dotnet_diagnostic.S3903.severity = none

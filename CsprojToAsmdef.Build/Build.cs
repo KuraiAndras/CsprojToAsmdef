@@ -11,12 +11,11 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 [ShutdownDotNetAfterServerBuild]
 partial class Build : NukeBuild
 {
-    public static int Main() => Execute<Build>(x => x.Compile);
-
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Parameter("Should be true for continuous integration builds")] readonly bool CiBuild;
+    [Parameter("Should be true for continuous integration builds")]
+    readonly bool CiBuild;
 
     [Solution] readonly Solution Solution = default!;
 
@@ -44,7 +43,7 @@ partial class Build : NukeBuild
             DotNetRestore(s => s
                 .SetProjectFile(CliProject)));
 
-    Target Compile => _ => _
+    Target BuildCli => _ => _
         .DependsOn(Restore)
         .Executes(() =>
             DotNetBuild(s => s
@@ -52,6 +51,19 @@ partial class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .SetVersion(CurrentVersion)
                 .SetContinuousIntegrationBuild(CiBuild)
-                .SetNoIncremental(true)
+                .EnableNoIncremental()
                 .EnableNoRestore()));
+
+    Target BuildAll => _ => _
+        .DependsOn(InstallCli)
+        .Executes(() =>
+            DotNetBuild(s => s
+                .SetProjectFile(Solution)
+                .SetConfiguration(Configuration)
+                .SetVersion(CurrentVersion)
+                .SetContinuousIntegrationBuild(CiBuild)
+                .EnableNoIncremental()
+                .EnableNoRestore()));
+
+    public static int Main() => Execute<Build>(x => x.BuildAll);
 }
