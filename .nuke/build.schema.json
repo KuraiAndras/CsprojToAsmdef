@@ -22,6 +22,10 @@
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
         },
+        "GithubToken": {
+          "type": "string",
+          "description": "Token used when managing the repository on GitHub"
+        },
         "Help": {
           "type": "boolean",
           "description": "Shows the help text for this build assembly"
@@ -81,7 +85,8 @@
               "Restore",
               "RunCi",
               "RunFormat",
-              "UnInstallCli"
+              "UnInstallCli",
+              "UpdatePackages"
             ]
           }
         },
@@ -104,7 +109,8 @@
               "Restore",
               "RunCi",
               "RunFormat",
-              "UnInstallCli"
+              "UnInstallCli",
+              "UpdatePackages"
             ]
           }
         },
