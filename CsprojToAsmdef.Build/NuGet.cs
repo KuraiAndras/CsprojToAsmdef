@@ -42,6 +42,7 @@ partial class Build
 
     Target CreateGithubRelease => _ => _
         .DependsOn(PushTag)
+        .DependsOn(Pack)
         .DependentFor(PushNuGet)
         .Executes(() =>
         {
