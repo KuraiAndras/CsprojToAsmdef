@@ -5,13 +5,18 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace></RootNamespace>
-    <NoWarn>CS0649;CS0169</NoWarn>
+    <NoWarn>CS0649;CS0169;SA1633;SA1200</NoWarn>
     <NukeRootDirectory>..</NukeRootDirectory>
     <NukeScriptDirectory>..</NukeScriptDirectory>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Nuke.Common" Version="5.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageDownload Include="dotnet-format" Version="[5.0.211103]" />
+    <PackageDownload Include="nukeeper" Version="[0.34.0]" />
   </ItemGroup>
 
 </Project>

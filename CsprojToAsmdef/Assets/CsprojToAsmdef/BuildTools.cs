@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,8 +14,12 @@ namespace CsprojToAsmdef
             {
                 var mainStopwatch = Stopwatch.StartNew();
 
+                Debug.Log("Started fixing up all projects");
+
+                var dataPath = Application.dataPath;
+
                 foreach (var filePath in Directory
-                    .EnumerateFiles(Application.dataPath, "*.csproj", SearchOption.AllDirectories)
+                    .EnumerateFiles(dataPath, "*.csproj", SearchOption.AllDirectories)
                     .Select(Path.GetFullPath))
                 {
                     var projectStopWatch = Stopwatch.StartNew();

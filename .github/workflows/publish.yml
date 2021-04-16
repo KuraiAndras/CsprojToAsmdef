@@ -15,14 +15,6 @@ jobs:
       - name: Setup Current .NET SDK
         uses: actions/setup-dotnet@v1.7.2
 
-      - name: Publish OpenUPM
-        uses: Klemensas/action-autotag@1.2.3
-        with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          package_root: "CsprojToAsmdef/Assets/CsprojToAsmdef"
-
       - name: Publish to NuGet
         shell: pwsh
-        env:
-          NUGET_API_KEY: ${{secrets.NUGET_API_KEY}}
-        run: ./build.ps1 PushNuGet --ci-build --configuration Release --nuget-api-key "${{ secrets.NUGET_API_KEY }}"
+        run: ./build.ps1 PushNuGet --ci-build --configuration Release --nuget-api-key "${{ secrets.NUGET_API_KEY }}" --github-token "${{ secrets.GITHUB_TOKEN }}"

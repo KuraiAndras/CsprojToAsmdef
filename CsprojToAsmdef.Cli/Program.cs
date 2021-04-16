@@ -1,10 +1,10 @@
 ﻿using CliFx;
+using CsprojToAsmdef.Cli.Domain.Services.DotNet;
 using Microsoft.Extensions.DependencyInjection;
 using MoreLinq.Extensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using CsprojToAsmdef.Cli.Domain.Services.DotNet;
 
 namespace CsprojToAsmdef.Cli
 {
