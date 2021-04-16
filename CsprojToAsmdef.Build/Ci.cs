@@ -7,5 +7,6 @@ partial class Build
         .DependsOn(InstallCli)
         .Executes(() =>
         {
+            Gh("--version");
         });
 }
