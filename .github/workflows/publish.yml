@@ -18,3 +18,5 @@ jobs:
       - name: Publish to NuGet
         shell: pwsh
         run: ./build.ps1 PushNuGet --ci-build --configuration Release --nuget-api-key "${{ secrets.NUGET_API_KEY }}" --github-token "${{ secrets.GITHUB_TOKEN }}"
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

@@ -18,3 +18,5 @@ jobs:
       - name: Run CI
         shell: pwsh
         run: ./build.ps1 RunCi --ci-build --configuration Release
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
