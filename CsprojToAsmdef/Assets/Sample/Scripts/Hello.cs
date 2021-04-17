@@ -1,4 +1,5 @@
-﻿using SampleUnityDependency;
+﻿using ExternalDependency;
+using SampleUnityDependency;
 using TMPro;
 using UnityEngine;
 
@@ -15,8 +16,8 @@ namespace Sample.Scripts
         {
             const string myDude = "My dude!";
 
-            CustomLogger.LogWarning(myDude);
-            _text.text = "Hello, " + myDude;
+            CustomLogger.Log(myDude);
+            _text.text = "Hello, " + myDude + " " + CustomCalculator.Add(21, 21);
         }
     }
 }

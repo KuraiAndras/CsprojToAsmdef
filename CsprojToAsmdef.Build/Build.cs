@@ -58,8 +58,6 @@ partial class Build : NukeBuild
 
     protected override void OnBuildInitialized()
     {
-        base.OnBuildInitialized();
-
         bool GetIsNewestVersion()
         {
             var currentVersion = new Version(CurrentVersion);
@@ -67,8 +65,7 @@ partial class Build : NukeBuild
             Git("fetch --tags");
 
             var maxPublishedVersion = Git("tag")
-                .Select(o => o.Text)
-                .Select(v => new Version(v))
+                .Select(o => new Version(o.Text))
                 .OrderBy(v => v)
                 .LastOrDefault();
 
@@ -98,5 +95,7 @@ partial class Build : NukeBuild
         CliName = Path.GetFileNameWithoutExtension(CliProject.Path);
 
         Console.WriteLine($"Current version {CurrentVersion} is the newest: {IsNewestVersion}");
+
+        base.OnBuildInitialized();
     }
 }
