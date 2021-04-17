@@ -8,7 +8,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Nuke.Common.Tools.Git;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.Git.GitTasks;
 using static System.IO.Directory;
@@ -24,7 +23,7 @@ partial class Build
 
     [PathExecutable] readonly Tool Gh = default!;
 
-    bool IsNewestVersion = false;
+    bool IsNewestVersion;
 
     Target Pack => _ => _
         .DependsOn(BuildCli)
