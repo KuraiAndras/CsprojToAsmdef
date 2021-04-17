@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <PackageDownload Include="dotnet-format" Version="[5.0.211103]" />
-    <PackageDownload Include="nukeeper" Version="[0.34.0]" />
   </ItemGroup>
 
 </Project>
