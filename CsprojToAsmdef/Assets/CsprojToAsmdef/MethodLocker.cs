@@ -10,10 +10,15 @@ namespace CsprojToAsmdef
     {
         private static readonly ConcurrentBag<string> RunningDictionary = new ConcurrentBag<string>();
 
-        public static async Task RunLockedMethod(Func<Task> methodBody, [CallerMemberName] string methodName = default)
+        public static Task RunLockedMethod(Func<Task> methodBody, [CallerMemberName] string methodName = default)
         {
             if (methodName is null) throw new ArgumentNullException(nameof(methodName), "Must use method name");
 
+            return RunLockedMethodInternal(methodBody, methodName);
+        }
+
+        private static async Task RunLockedMethodInternal(Func<Task> methodBody, string methodName)
+        {
             try
             {
                 var isRunning = RunningDictionary.TryPeek(out _);

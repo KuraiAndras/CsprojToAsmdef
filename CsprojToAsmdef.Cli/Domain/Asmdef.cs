@@ -89,10 +89,8 @@ namespace CsprojToAsmdef.Cli.Domain
                     var fileName = Path.GetFileName(f);
 
                     return fileName != $"{projectName}.dll"
-                           && !f.EndsWith(".pdb")
-                           && !f.EndsWith(".deps.json")
-                           && !f.EndsWith(".dll.RoslynCA.json")
-                           && !referencedAsmdefs.Contains(fileName);
+                           && !referencedAsmdefs.Contains(fileName)
+                           && fileName.EndsWith(".dll");
                 })
                 .ToImmutableArray();
         }

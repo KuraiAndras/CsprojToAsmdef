@@ -2,6 +2,6 @@
 {
     public static class Messenger
     {
-        public static string GetMessage() => "Hello";
+        public const string Message = "Hello";
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Threading.Tasks;
+using UnityEditor;
 
 namespace CsprojToAsmdef
 {
@@ -8,6 +9,6 @@ namespace CsprojToAsmdef
         public static void InitProject() => ProjectInitializer.InitializeProject();
 
         [MenuItem("Csproj Tools / Fix up all projects")]
-        public static void RestoreProjects() => BuildTools.BuildAllCsproj();
+        public static async Task RestoreProjects() => await BuildTools.BuildAllCsproj();
     }
 }

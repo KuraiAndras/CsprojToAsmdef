@@ -7,6 +7,10 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
+  <ImportGroup>
+    <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\..\'))" />
+  </ImportGroup>
+
   <PropertyGroup>
     <UnityProjectPath>$(MSBuildThisFileDirectory)\..</UnityProjectPath>
     <AssetsFolder>$(MSBuildThisFileDirectory)</AssetsFolder>

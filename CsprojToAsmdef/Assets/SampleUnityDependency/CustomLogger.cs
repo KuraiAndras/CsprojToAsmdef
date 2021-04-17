@@ -12,6 +12,6 @@ namespace SampleUnityDependency
             .CreateLogger();
 
         // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
-        public static void LogWarning(string message) => MyLogger.Warning($"{Messenger.GetMessage()} {message}");
+        public static void LogWarning(string message) => MyLogger.Warning($"{Messenger.Message} {message}");
     }
 }
