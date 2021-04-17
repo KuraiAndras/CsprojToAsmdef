@@ -12,6 +12,7 @@ namespace CsprojToAsmdef
     {
         private static readonly string DataPath;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S3963:\"static\" fields should be initialized inline", Justification = "Needs to initialized by editor")]
         static Dotnet() => DataPath = Application.dataPath;
 
         public static void Build(string projectPath)
@@ -36,8 +37,8 @@ namespace CsprojToAsmdef
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
-                    CreateNoWindow = true
-                }
+                    CreateNoWindow = true,
+                },
             })
             {
                 var outputBuilder = new StringBuilder();

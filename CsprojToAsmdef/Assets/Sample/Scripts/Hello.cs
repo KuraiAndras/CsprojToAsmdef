@@ -3,17 +3,20 @@ using SomeOtherDependency;
 using TMPro;
 using UnityEngine;
 
-namespace Sample
+// ReSharper disable Unity.RedundantSerializeFieldAttribute
+
+namespace Sample.Scripts
 {
-    // ReSharper disable once Unity.RedundantSerializeFieldAttribute
     public class Hello : MonoBehaviour
     {
         [SerializeField] private TMP_Text _text = default;
 
         private void Start()
         {
-            CustomLogger.LogWarning("My dude!");
-            _text.text = Messenger.GetMessage();
+            const string prefix = "My dude!";
+
+            CustomLogger.LogWarning(prefix);
+            _text.text = "Hello, " + Messenger.Message;
         }
     }
 }
