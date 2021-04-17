@@ -1,3 +1,7 @@
+# 0.4.1
+- Only copy DLLs to NuGet folder
+- Apply analyzer fixes for Unity project
+
 # 0.4.0
 - Set UnityProjectPath property in Directory.Build.props
 - Generate asmdef files with explicit DLL references
