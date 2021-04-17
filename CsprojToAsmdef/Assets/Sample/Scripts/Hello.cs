@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 
 // ReSharper disable Unity.RedundantSerializeFieldAttribute
+// ReSharper disable once FieldCanBeMadeReadOnly.Local
 
 namespace Sample.Scripts
 {
@@ -13,10 +14,10 @@ namespace Sample.Scripts
 
         private void Start()
         {
-            const string prefix = "My dude!";
+            const string myDude = "My dude!";
 
-            CustomLogger.LogWarning(prefix);
-            _text.text = "Hello, " + Messenger.Message;
+            CustomLogger.LogWarning(myDude);
+            _text.text = "Hello, " + myDude;
         }
     }
 }
