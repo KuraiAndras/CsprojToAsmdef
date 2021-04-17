@@ -2,7 +2,6 @@
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Utilities.Collections;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -11,7 +10,6 @@ using System.Text;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.Git.GitTasks;
 using static System.IO.Directory;
-using Console = Colorful.Console;
 
 partial class Build
 {
@@ -23,7 +21,7 @@ partial class Build
 
     [PathExecutable] readonly Tool Gh = default!;
 
-    bool IsNewestVersion;
+    bool IsNewestVersion { get; set; }
 
     Target Pack => _ => _
         .DependsOn(BuildCli)
@@ -34,28 +32,6 @@ partial class Build
                 .SetVersion(CurrentVersion)
                 .EnableNoBuild()
                 .EnableNoRestore()));
-
-    Target CheckIfPublishIsNeeded => _ => _
-        .Before(PushTag)
-        .DependentFor(PushTag)
-        .DependentFor(CreateGithubRelease)
-        .DependentFor(PushNuGet)
-        .Executes(() =>
-        {
-            var currentVersion = new Version(CurrentVersion);
-
-            Git("fetch --tags");
-
-            var maxPublishedVersion = Git("tag")
-                .Select(o => o.Text)
-                .Select(v => new Version(v))
-                .OrderBy(v => v)
-                .LastOrDefault();
-
-            IsNewestVersion = currentVersion.CompareTo(maxPublishedVersion) > 0;
-
-            Console.WriteLine($"Current version {currentVersion} is the newer than the last {maxPublishedVersion}: {IsNewestVersion}");
-        });
 
     Target PushTag => _ => _
         .OnlyWhenDynamic(() => IsNewestVersion)
