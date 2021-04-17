@@ -22,10 +22,6 @@
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
         },
-        "GithubToken": {
-          "type": "string",
-          "description": "Token used when managing the repository on GitHub"
-        },
         "Help": {
           "type": "boolean",
           "description": "Shows the help text for this build assembly"
@@ -79,6 +75,7 @@
               "BuildAll",
               "BuildCli",
               "CheckFormatting",
+              "CheckIfPublishIsNeeded",
               "CreateGithubRelease",
               "InstallCli",
               "Pack",
@@ -87,8 +84,7 @@
               "Restore",
               "RunCi",
               "RunFormat",
-              "UnInstallCli",
-              "UpdatePackages"
+              "UnInstallCli"
             ]
           }
         },
@@ -105,6 +101,7 @@
               "BuildAll",
               "BuildCli",
               "CheckFormatting",
+              "CheckIfPublishIsNeeded",
               "CreateGithubRelease",
               "InstallCli",
               "Pack",
@@ -113,8 +110,7 @@
               "Restore",
               "RunCi",
               "RunFormat",
-              "UnInstallCli",
-              "UpdatePackages"
+              "UnInstallCli"
             ]
           }
         },
