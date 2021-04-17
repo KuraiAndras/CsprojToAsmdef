@@ -7,7 +7,7 @@ on:
 
 jobs:
   update-packages:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     name: Update dependencies
     steps:
       - name: Checkout
@@ -15,9 +15,8 @@ jobs:
         with:
           ref: develop
 
-      - name: Setup Current .NET SDK
-        uses: actions/setup-dotnet@v1.7.2
-
       - name: Run Nukeeper
         shell: pwsh
-        run: ./build.ps1 UpdatePackages --github-token ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          dotnet tool install nukeeper -g
+          nukeeper repo https://github.com/KuraiAndras/CsprojToAsmdef ${{ secrets.GITHUB_TOKEN }} -a 0 --targetBranch develop --maxpackageupdates 100 --consolidate
