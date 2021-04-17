@@ -19,4 +19,4 @@ jobs:
         shell: pwsh
         run: |
           dotnet tool install nukeeper -g
-          nukeeper repo https://github.com/KuraiAndras/CsprojToAsmdef ${{ secrets.GITHUB_TOKEN }} -a 0 --targetBranch develop --maxpackageupdates 100 --consolidate
+          nukeeper repo https://github.com/KuraiAndras/CsprojToAsmdef ${{ secrets.NUKEEPER_TOKEN }} -a 0 --targetBranch develop --maxpackageupdates 100 --consolidate
