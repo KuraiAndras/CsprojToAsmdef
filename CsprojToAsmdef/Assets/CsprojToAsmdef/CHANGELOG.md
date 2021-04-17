@@ -1,6 +1,3 @@
-# 5.0.0
-- Support external csproj dependencies
-
 # 0.4.1
 - Only copy DLLs to NuGet folder
 - Apply analyzer fixes for Unity project
