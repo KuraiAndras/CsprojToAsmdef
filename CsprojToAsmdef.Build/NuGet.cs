@@ -8,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Nuke.Common.Tools.Git;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.Git.GitTasks;
 using static System.IO.Directory;
@@ -43,6 +44,8 @@ partial class Build
         .Executes(() =>
         {
             var currentVersion = new Version(CurrentVersion);
+
+            Git("fetch --tags");
 
             var maxPublishedVersion = Git("tag")
                 .Select(o => o.Text)
