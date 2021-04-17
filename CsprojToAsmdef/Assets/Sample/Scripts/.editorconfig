@@ -1,0 +1,8 @@
+root = false
+
+[*.cs]
+# RCS1213: Remove unused member method declaration
+dotnet_diagnostic.RCS1213.severity = none
+
+# RCS1169: Make field read-only
+dotnet_diagnostic.RCS1169.severity = none

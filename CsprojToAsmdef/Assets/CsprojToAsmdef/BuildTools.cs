@@ -9,7 +9,7 @@ namespace CsprojToAsmdef
 {
     public static class BuildTools
     {
-        public static async void BuildAllCsproj() =>
+        public static async Task BuildAllCsproj() =>
             await MethodLocker.RunLockedMethod(async () =>
             {
                 var mainStopwatch = Stopwatch.StartNew();

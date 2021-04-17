@@ -1,3 +1,4 @@
+root = true
 # To learn more about .editorconfig see https://aka.ms/editorconfigdocs
 ###############################
 # Core EditorConfig Options   #
@@ -154,3 +155,6 @@ dotnet_diagnostic.IDE0005.severity = warning
 
 # RCS1090: Add call to 'ConfigureAwait' (or vice versa).
 dotnet_diagnostic.RCS1090.severity = none
+
+# SA1134: Attributes should not share line
+dotnet_diagnostic.SA1134.severity = none
