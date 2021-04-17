@@ -21,11 +21,11 @@ partial class Build : NukeBuild
 
     [Solution] readonly Solution Solution = default!;
 
-    string PackageDirectory => Path.Combine(Solution.Directory, "CsprojToAsmdef", "Assets", "CsprojToAsmdef");
+    string PackageDirectory { get; set; } = default!;
 
     string CurrentVersion { get; set; } = default!;
 
-    Project CliProject => Solution.AllProjects.Single(p => p.Name == "CsprojToAsmdef.Cli");
+    Project CliProject { get; set; } = default!;
 
     Target Restore => _ => _
         .Executes(() =>
@@ -91,8 +91,11 @@ partial class Build : NukeBuild
             return package.Version;
         }
 
+        PackageDirectory = Path.Combine(Solution.Directory, "CsprojToAsmdef", "Assets", "CsprojToAsmdef");
         CurrentVersion = GetCurrentVersion();
         IsNewestVersion = GetIsNewestVersion();
+        CliProject = Solution.AllProjects.Single(p => p.Name == "CsprojToAsmdef.Cli");
+        CliName = Path.GetFileNameWithoutExtension(CliProject.Path);
 
         Console.WriteLine($"Current version {CurrentVersion} is the newest: {IsNewestVersion}");
     }

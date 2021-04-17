@@ -6,7 +6,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 partial class Build
 {
-    string CliName => Path.GetFileNameWithoutExtension(CliProject.Path);
+    string CliName { get; set; } = default!;
 
     Target UnInstallCli => _ => _
         .DependentFor(InstallCli)
