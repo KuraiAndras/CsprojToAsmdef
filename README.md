@@ -1,4 +1,4 @@
-# CsprojToAsmdef
+# CsprojToAsmdef [![Publish](https://github.com/KuraiAndras/CsprojToAsmdef/actions/workflows/publish.yml/badge.svg)](https://github.com/KuraiAndras/CsprojToAsmdef/actions/workflows/publish.yml) [![Nuget](https://img.shields.io/nuget/v/CsprojToAsmdef.Cli)](https://www.nuget.org/packages/CsprojToAsmdef.Cli/) [![openupm](https://img.shields.io/npm/v/com.kuraiandras.csprojtoasmdef?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.kuraiandras.csprojtoasmdef/)
 
 Generate [asmdef](https://docs.unity3d.com/Manual/ScriptCompilationAssemblyDefinitionFiles.html) files from csproj files inside Unity3D. Features:
 
