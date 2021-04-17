@@ -1,5 +1,4 @@
 ﻿using SampleUnityDependency;
-using SomeOtherDependency;
 using TMPro;
 using UnityEngine;
 
