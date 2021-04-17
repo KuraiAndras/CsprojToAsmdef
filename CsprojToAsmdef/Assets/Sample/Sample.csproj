@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ExternalDependency\ExternalDependency.csproj" />
     <ProjectReference Include="..\SampleUnityDependency\SampleUnityDependency.csproj" />
   </ItemGroup>
 
