@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.Tools.Git.GitTasks;
+using Console = Colorful.Console;
 
 [ShutdownDotNetAfterServerBuild]
 partial class Build : NukeBuild
@@ -19,28 +21,11 @@ partial class Build : NukeBuild
 
     [Solution] readonly Solution Solution = default!;
 
-    string PackageDirectory => Path.Combine(Solution.Directory, "CsprojToAsmdef", "Assets", "CsprojToAsmdef");
+    string PackageDirectory { get; set; } = default!;
 
-    string CurrentVersion
-    {
-        get
-        {
-            var packageDirectory = PackageDirectory;
+    string CurrentVersion { get; set; } = default!;
 
-            var packagePath = Path.Combine(packageDirectory, "package.json");
-
-            if (!File.Exists(packagePath)) throw new InvalidOperationException($"package.json does not exist at path: {packagePath}");
-
-            var jsonContent = File.ReadAllText(packagePath);
-            var package = JsonSerializer.Deserialize<PackageJson>(jsonContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-            if (package?.Version is null) throw new InvalidOperationException($"Cloud not deserialize package.json:\n{jsonContent}");
-
-            return package.Version;
-        }
-    }
-
-    Project CliProject => Solution.AllProjects.Single(p => p.Name == "CsprojToAsmdef.Cli");
+    Project CliProject { get; set; } = default!;
 
     Target Restore => _ => _
         .Executes(() =>
@@ -70,4 +55,47 @@ partial class Build : NukeBuild
                 .EnableNoRestore()));
 
     public static int Main() => Execute<Build>(x => x.BuildAll);
+
+    protected override void OnBuildInitialized()
+    {
+        bool GetIsNewestVersion()
+        {
+            var currentVersion = new Version(CurrentVersion);
+
+            Git("fetch --tags");
+
+            var maxPublishedVersion = Git("tag")
+                .Select(o => new Version(o.Text))
+                .OrderBy(v => v)
+                .LastOrDefault();
+
+            return currentVersion.CompareTo(maxPublishedVersion) > 0;
+        }
+
+        string GetCurrentVersion()
+        {
+            var packageDirectory = PackageDirectory;
+
+            var packagePath = Path.Combine(packageDirectory, "package.json");
+
+            if (!File.Exists(packagePath)) throw new InvalidOperationException($"package.json does not exist at path: {packagePath}");
+
+            var jsonContent = File.ReadAllText(packagePath);
+            var package = JsonSerializer.Deserialize<PackageJson>(jsonContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            if (package?.Version is null) throw new InvalidOperationException($"Cloud not deserialize package.json:\n{jsonContent}");
+
+            return package.Version;
+        }
+
+        PackageDirectory = Path.Combine(Solution.Directory, "CsprojToAsmdef", "Assets", "CsprojToAsmdef");
+        CurrentVersion = GetCurrentVersion();
+        IsNewestVersion = GetIsNewestVersion();
+        CliProject = Solution.AllProjects.Single(p => p.Name == "CsprojToAsmdef.Cli");
+        CliName = Path.GetFileNameWithoutExtension(CliProject.Path);
+
+        Console.WriteLine($"Current version {CurrentVersion} is the newest: {IsNewestVersion}");
+
+        base.OnBuildInitialized();
+    }
 }
