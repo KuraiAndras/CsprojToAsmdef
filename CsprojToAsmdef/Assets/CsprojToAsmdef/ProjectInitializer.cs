@@ -1,7 +1,10 @@
 ﻿using CsprojToAsmdef.Extensions;
+using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml;
+using System.Xml.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,6 +33,7 @@ namespace CsprojToAsmdef
             InitBuildFile(NuGetGitIgnorePath, NuGetGitIgnoreContent);
 
             SetCurrentUnityVersionInPropsFile();
+            SetCurrentLanguageVersion();
         }
 
         private static void InitBuildFile(string filePath, string fileContent)
@@ -50,22 +54,59 @@ namespace CsprojToAsmdef
         {
             if (!File.Exists(PropsPath)) return;
 
-            var propsDocument = new XmlDocument { PreserveWhitespace = true, }
-                .LoadFluent(PropsPath)
-                .ToXDocument();
+            var propsDocument = LoadNiceXDocument(PropsPath);
 
             var unityVersionElement = propsDocument
                 .Descendants()
                 .FirstOrDefault(d => d.Name == "UnityVersion");
 
             if (unityVersionElement is null) return;
+            if (unityVersionElement.Value == Application.unityVersion) return;
 
             unityVersionElement.Value = Application.unityVersion;
 
-            using (var writer = XmlWriter.Create(PropsPath, new XmlWriterSettings { OmitXmlDeclaration = true, }))
+            WriteNiceXDocument(propsDocument, PropsPath);
+        }
+
+        private static void SetCurrentLanguageVersion()
+        {
+            var propsDocument = LoadNiceXDocument(PropsPath);
+
+            var langVersionElement = propsDocument
+                .Descendants()
+                .FirstOrDefault(d => d.Name == "LangVersion");
+
+            if (langVersionElement is null) return;
+
+            var languageVersion = GetSuggestedLanguageVersionFromUnityVersion();
+
+            if (langVersionElement.Value == languageVersion) return;
+
+            langVersionElement.Value = languageVersion;
+
+            WriteNiceXDocument(propsDocument, PropsPath);
+        }
+
+        private static XDocument LoadNiceXDocument(string filePath) =>
+            new XmlDocument { PreserveWhitespace = true, }
+                .LoadFluent(filePath)
+                .ToXDocument();
+
+        private static void WriteNiceXDocument(XDocument propsDocument, string filePath)
+        {
+            using (var writer = XmlWriter.Create(filePath, new XmlWriterSettings { OmitXmlDeclaration = true, }))
             {
                 propsDocument.Save(writer);
             }
+        }
+
+        private static string GetSuggestedLanguageVersionFromUnityVersion()
+        {
+            var currentUnityVersion = new Version(Regex.Match(Application.unityVersion, @"(\d+\.)(\d+\.)(\d+)").Value);
+
+            if (currentUnityVersion.CompareTo(new Version("2021.2")) >= 0) return "9.0";
+            if (currentUnityVersion.CompareTo(new Version("2020.2")) >= 0) return "8.0";
+            return "7.3";
         }
     }
 }
