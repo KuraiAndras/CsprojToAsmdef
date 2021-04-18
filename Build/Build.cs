@@ -54,6 +54,15 @@ partial class Build : NukeBuild
                 .EnableNoIncremental()
                 .EnableNoRestore()));
 
+    Target Test => _ => _
+        .DependsOn(BuildCli)
+        .Executes(() =>
+            DotNetTest(s => s
+                .SetProjectFile(Solution)
+                .SetConfiguration(Configuration)
+                .EnableNoBuild()
+                .EnableNoRestore()));
+
     public static int Main() => Execute<Build>(x => x.BuildAll);
 
     protected override void OnBuildInitialized()

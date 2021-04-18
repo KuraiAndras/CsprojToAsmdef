@@ -5,6 +5,7 @@ partial class Build
     Target RunCi => _ => _
         .DependsOn(CheckFormatting)
         .DependsOn(InstallCli)
+        .DependsOn(Test)
         .Executes(() =>
         {
         });
