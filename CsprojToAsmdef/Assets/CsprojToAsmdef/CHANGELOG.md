@@ -1,3 +1,6 @@
+# 0.5.0
+- Automatically set Unity version when the editor loads, and when creating the props file
+
 # 0.4.1
 - Only copy DLLs to NuGet folder
 - Apply analyzer fixes for Unity project
