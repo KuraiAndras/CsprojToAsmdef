@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/CsprojToAsmdef.Cli/bin/Debug/net5.0/CsprojToAsmdef.Cli.dll",
+            "program": "${workspaceFolder}/Sources/CsprojToAsmdef.Cli/bin/Debug/net5.0/CsprojToAsmdef.Cli.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/CsprojToAsmdef.Cli",
+            "cwd": "${workspaceFolder}/Sources/CsprojToAsmdef.Cli",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
