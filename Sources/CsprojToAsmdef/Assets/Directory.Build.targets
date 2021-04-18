@@ -1,0 +1,15 @@
+<Project>
+
+  <ItemGroup>
+    <None Remove="**/**/*.meta" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <AsmdefToolAccess>asmdef-tool</AsmdefToolAccess>
+  </PropertyGroup>
+
+  <Target Name="FixUpProject" AfterTargets="AfterBuild">
+      <Exec Command="$(AsmdefToolAccess) FixUpProject $(MSBuildProjectFullPath)"/>
+  </Target>
+
+</Project>

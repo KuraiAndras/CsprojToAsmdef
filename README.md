@@ -7,7 +7,7 @@ Generate [asmdef](https://docs.unity3d.com/Manual/ScriptCompilationAssemblyDefin
 - Support Roslyn analyzers
 - Build Unity code using the .NET CLI. Does not support creating a runnable application
 
-![Initialize Unity project](Images/menu_item_init_project.png)
+![Initialize Unity project](Documentation/Images/menu_item_init_project.png)
 
 ## About
 
