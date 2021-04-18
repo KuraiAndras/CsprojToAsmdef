@@ -1,3 +1,6 @@
+# 0.6.0
+- Bumping version because of project structure change, otherwise no changes
+
 # 0.5.0
 - Automatically set Unity version when the editor loads, and when creating the props file
 
