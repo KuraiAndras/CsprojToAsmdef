@@ -83,12 +83,12 @@ partial class Build : NukeBuild
             var jsonContent = File.ReadAllText(packagePath);
             var package = JsonSerializer.Deserialize<PackageJson>(jsonContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            if (package?.Version is null) throw new InvalidOperationException($"Cloud not deserialize package.json:\n{jsonContent}");
+            if (package?.Version is null) throw new InvalidOperationException($"Cloud not deserialize package.json:{Environment.NewLine}{jsonContent}");
 
             return package.Version;
         }
 
-        PackageDirectory = Path.Combine(Solution.Directory, "CsprojToAsmdef", "Assets", "CsprojToAsmdef");
+        PackageDirectory = Solution.AllProjects.Single(p => p.Name == "CsprojToAsmdef").Directory;
         CurrentVersion = GetCurrentVersion();
         IsNewestVersion = GetIsNewestVersion();
         CliProject = Solution.AllProjects.Single(p => p.Name == "CsprojToAsmdef.Cli");

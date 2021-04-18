@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/CsprojToAsmdef.Cli/CsprojToAsmdef.Cli.csproj",
+                "${workspaceFolder}/Sources/CsprojToAsmdef.Cli/CsprojToAsmdef.Cli.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/CsprojToAsmdef.Cli/CsprojToAsmdef.Cli.csproj",
+                "${workspaceFolder}/Sources/CsprojToAsmdef.Cli/CsprojToAsmdef.Cli.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/CsprojToAsmdef.Cli/CsprojToAsmdef.Cli.csproj",
+                "${workspaceFolder}/Sources/CsprojToAsmdef.Cli/CsprojToAsmdef.Cli.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

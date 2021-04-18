@@ -3,7 +3,6 @@ using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Utilities.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,7 +12,6 @@ using static System.IO.Directory;
 
 partial class Build
 {
-    [SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded", Justification = "Will only ever publish on Nuget.org")]
     const string NugetApiUrl = "https://api.nuget.org/v3/index.json";
 
     [Parameter("NuGet API key to use for authentication with the NuGet server")]
