@@ -5,7 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Roslynator.Analyzers" Version="3.2.0" PrivateAssets="all" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.24.0.32949" PrivateAssets="all" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.25.0.33663" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
   </ItemGroup>
 </Project>
