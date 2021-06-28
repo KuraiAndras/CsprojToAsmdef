@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text.Json;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.Git.GitTasks;
-using Console = Colorful.Console;
 
 [ShutdownDotNetAfterServerBuild]
 partial class Build : NukeBuild
