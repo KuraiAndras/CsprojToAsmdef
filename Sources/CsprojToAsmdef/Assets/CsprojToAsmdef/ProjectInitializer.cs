@@ -25,12 +25,12 @@ namespace CsprojToAsmdef
         private const string NuGetGitIgnoreContent = "*.dll\r\n";
         private static readonly string NuGetGitIgnorePath = Path.GetFullPath(Path.Combine(Application.dataPath, "NuGet", ".gitignore"));
 
-        public static void InitializeProject()
+        public static void InitializeProject(bool ignoreDll)
         {
             InitBuildFile(PropsPath, PropsContent);
             InitBuildFile(TargetsPath, TargetsContent);
             InitBuildFile(GitIgnorePath, GitIgnoreContent);
-            InitBuildFile(NuGetGitIgnorePath, NuGetGitIgnoreContent);
+            if (ignoreDll) InitBuildFile(NuGetGitIgnorePath, NuGetGitIgnoreContent);
 
             SetCurrentUnityVersionInPropsFile();
             SetCurrentLanguageVersion();
