@@ -1,3 +1,8 @@
+# 0.7.0
+- Updated dependencies
+- CI fully runs on Linux
+- When initializing a project a prompt asks the user whether to generate gitignore for the DLLs
+
 # 0.6.0
 - Bumping version because of project structure change, otherwise no changes
 
