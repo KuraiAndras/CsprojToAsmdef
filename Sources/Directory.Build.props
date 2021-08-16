@@ -4,7 +4,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Roslynator.Analyzers" Version="3.2.0" PrivateAssets="all" />
+    <PackageReference Include="Roslynator.Analyzers" Version="3.2.2" PrivateAssets="all" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="8.27.0.35380" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
   </ItemGroup>
