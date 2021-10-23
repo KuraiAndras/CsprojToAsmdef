@@ -15,6 +15,6 @@
     <PackageReference Include="Nuke.Common" Version="5.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageDownload Include="dotnet-format" Version="[5.1.225507]" />
+    <PackageDownload Include="dotnet-format" Version="[5.1.250801]" />
   </ItemGroup>
 </Project>
