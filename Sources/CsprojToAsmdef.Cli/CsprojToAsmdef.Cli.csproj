@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CliFx" Version="2.2.1" />
+    <PackageReference Include="CliFx" Version="2.2.2" />
     <PackageReference Include="CliWrap" Version="3.4.0" />
     <PackageReference Include="Microsoft.Build" Version="17.0.0" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.0.0" />
