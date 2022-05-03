@@ -12,7 +12,7 @@
     <NukeTelemetryVersion>1</NukeTelemetryVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Nuke.Common" Version="6.0.2" />
+    <PackageReference Include="Nuke.Common" Version="6.0.3" />
   </ItemGroup>
   <ItemGroup>
     <PackageDownload Include="dotnet-format" Version="[5.1.250801]" />
